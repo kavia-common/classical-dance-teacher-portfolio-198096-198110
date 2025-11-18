@@ -1,0 +1,1 @@
+This file exists to ensure the src directory has all necessary nested folders created by the tool. It has no functional impact.

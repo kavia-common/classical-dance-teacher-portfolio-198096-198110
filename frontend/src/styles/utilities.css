@@ -1,0 +1,13 @@
+.u-center {
+  display: grid;
+  place-items: center;
+}
+.u-mt-2 { margin-top: .5rem; }
+.u-mt-4 { margin-top: 1rem; }
+.u-mt-6 { margin-top: 1.5rem; }
+.u-mb-4 { margin-bottom: 1rem; }
+.u-p-4 { padding: 1rem; }
+.u-p-6 { padding: 1.5rem; }
+.text-muted { color: var(--color-text-muted); }
+.text-center { text-align: center; }
+.max-w-prose { max-width: 70ch; }
