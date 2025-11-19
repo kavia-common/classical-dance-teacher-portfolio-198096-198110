@@ -1,0 +1,49 @@
+/* Ocean Professional Theme: Blue (#2563EB), Amber (#F59E0B), backgrounds, etc. */
+:root {
+  --primary: #2563EB;
+  --secondary: #F59E0B;
+  --text: #111827;
+  --surface: #ffffff;
+  --bg: #f9fafb;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: linear-gradient(120deg, #2563EB10 0%, #f9fafb 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover, a:focus {
+  color: var(--secondary);
+  text-decoration: underline;
+  outline: none;
+}
+h1,h2,h3,h4,h5 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+section {
+  box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 640px) {
+  nav ul {
+    gap: 0.65rem !important;
+  }
+  section {
+    padding: 1.25rem !important;
+  }
+}
+/* Add further progressive enhancement per section as needed */
