@@ -3,10 +3,8 @@ import react from '@vitejs/plugin-react';
 
 // PUBLIC_INTERFACE
 /**
- * Vite config for Classical Dance Teacher Profile frontend.
- * - Static: server and preview always bind to 0.0.0.0:3000 (host: true, port: 3000)
- * - server.watch.ignored includes ['**/.env*', '**/vite.config.*'] for full stability.
- * - No dynamic shell commands or inline prose, only valid JS/TS config.
+ * Vite configuration for Classical Dance Teacher Profile frontend.
+ * Configures server/preview to use port 3000 and bind all interfaces.
  */
 export default defineConfig({
   plugins: [react()],
@@ -15,17 +13,9 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     open: false,
-    watch: {
-      ignored: [
-        '**/.env*',
-        '**/vite.config.*'
-      ]
-    }
   },
   preview: {
     host: true,
     port: 3000,
-    strictPort: true,
-    open: false
-  }
+  },
 });
