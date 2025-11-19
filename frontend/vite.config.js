@@ -5,22 +5,33 @@ import react from '@vitejs/plugin-react';
 /**
  * Vite config for React SPA.
  * - Dev server and preview always bind to 0.0.0.0:3000 with strictPort.
- * - No process.env, dotenv, or shell expansions used for server config.
  * - HMR always connects to 3000.
- * - No auto-open browser on start or preview.
- * - All .env and vite.config.* reloads are ignored for server restarts.
- * - Plugins/handlers must not react to .env or config changes (forced static).
+ * - All .env* and vite.config.* reloads are ignored for server restarts, including both watcher and handleHotUpdate layer.
+ * - No process.env, dotenv, or shell expansions used for server config.
+ * - No plugins may inject runtime env or rewatch configs.
+ * - Prevents server restart or HMR update for changes to .env* or vite.config.* files.
  */
+const ignoreConfigAndEnvPlugin = () => ({
+  name: 'ignore-config-and-env-hotupdate',
+  handleHotUpdate(ctx) {
+    if (
+      ctx.file.match(/\.env(\..*)?$/) ||
+      ctx.file.match(/vite\.config\.[cmjt]s$/)
+    ) {
+      // Returning [] disables all HMR/restart for these files
+      return [];
+    }
+  }
+});
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), ignoreConfigAndEnvPlugin()],
   server: {
     host: true,
     port: 3000,
     strictPort: true,
     open: false,
-    hmr: {
-      clientPort: 3000
-    },
+    hmr: { clientPort: 3000 },
     // Prevent Vite dev server from restarting on changes to .env* or vite.config.*
     watch: {
       ignored: [
