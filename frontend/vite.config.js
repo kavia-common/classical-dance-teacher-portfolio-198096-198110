@@ -5,10 +5,10 @@ import dotenv from 'dotenv';
 // PUBLIC_INTERFACE
 /** Vite config for React SPA.
  *  - Dev server binds to 0.0.0.0:3000 and does not auto-open browser.
- *  - Supports REACT_APP_* env vars from .env and exposes to import.meta.env.
- *  - (Optional proxy setup for "/api" if backend runs on different port.)
+ *  - Uses PORT from .env or 3000 by default.
+ *  - Exposes REACT_APP_* env vars to import.meta.env.
  */
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   dotenv.config({ path: '.env' });
   const defaultPort = 3000;
   const envPort = process.env.PORT ? Number(process.env.PORT) : defaultPort;
@@ -19,13 +19,8 @@ export default defineConfig(({ mode }) => {
       port: envPort,
       strictPort: true,
       open: false,
-      // Uncomment below for proxy to backend:
-      // proxy: {
-      //   '/api': 'http://localhost:5000',
-      // },
     },
     define: {
-      // Expose REACT_APP_* as import.meta.env
       ...Object.entries(process.env)
         .filter(([k]) => k.startsWith('REACT_APP_'))
         .reduce((acc, [k, v]) => {
