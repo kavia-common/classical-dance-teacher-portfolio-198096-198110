@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
 
@@ -10,11 +10,14 @@ import dotenv from 'dotenv';
  */
 export default defineConfig(({ mode }) => {
   dotenv.config({ path: '.env' });
+  const defaultPort = 3000;
+  const envPort = process.env.PORT ? Number(process.env.PORT) : defaultPort;
   return {
     plugins: [react()],
     server: {
-      host: '0.0.0.0',
-      port: 3000,
+      host: true,
+      port: envPort,
+      strictPort: true,
       open: false,
       // Uncomment below for proxy to backend:
       // proxy: {
