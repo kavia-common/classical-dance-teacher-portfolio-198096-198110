@@ -25,8 +25,9 @@ export default defineConfig({
     watch: {
       ignored: [
         '**/.env',
-        '**/.env.*'
-      ] // Hard ignore of env file changes
+        '**/.env.*',
+        '**/vite.config.*'
+      ] // Hard ignore of env file and vite config changes
     }
   },
   preview: {
