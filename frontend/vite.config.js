@@ -8,8 +8,8 @@ import react from '@vitejs/plugin-react';
  * - No process.env, dotenv, or shell expansions used for server config.
  * - HMR always connects to 3000.
  * - No auto-open browser on start or preview.
- * - All .env reloads are ignored for server restarts.
- * - No watcher or plugin watches or triggers server reloads for .env.
+ * - All .env and vite.config.* reloads are ignored for server restarts.
+ * - Plugins/handlers must not react to .env or config changes (forced static).
  */
 export default defineConfig({
   plugins: [react()],
@@ -19,15 +19,18 @@ export default defineConfig({
     strictPort: true,
     open: false,
     hmr: {
-      clientPort: 3000,
-      port: 3000
+      clientPort: 3000
     },
+    // Prevent Vite dev server from restarting on changes to .env* or vite.config.*
     watch: {
       ignored: [
         '**/.env',
         '**/.env.*',
-        '**/vite.config.*'
-      ] // Hard ignore of env file and vite config changes
+        '**/vite.config.js',
+        '**/vite.config.mjs',
+        '**/vite.config.ts',
+        '**/vite.config.cjs'
+      ]
     }
   },
   preview: {
