@@ -4,34 +4,18 @@ import react from '@vitejs/plugin-react';
 // PUBLIC_INTERFACE
 /**
  * Vite config for Classical Dance Teacher Profile frontend.
- * - Dev and preview server bind 0.0.0.0:3000 (host: true, port: 3000, strictPort, open: false)
- * - No process.env, no dynamic shell, no dotenv/cross-env, no runtime .env rewriting
- * - Server/preview/HMR always listen on 3000
- * - Prevents server restart/HMR on changes to .env* and vite.config.*
- * - Watch ignores: ['**/.env*', '**/vite.config.*']
- * - Additional plugin disables HMR/restart on env/config changes at handleHotUpdate layer
+ * - Static: server and preview always bind to 0.0.0.0:3000 (host: true, port: 3000)
+ * - No env expansion or dynamic shell commands.
+ * - server.watch.ignored includes ['**/.env*', '**/vite.config.*'] for full stability.
+ * - No custom plugins causing restarts or reloads on config/env file changes.
  */
-const ignoreConfigAndEnvPlugin = () => ({
-  name: 'ignore-config-and-env-hotupdate',
-  handleHotUpdate(ctx) {
-    if (
-      ctx.file.match(/\.env(\..*)?$/) ||
-      ctx.file.match(/vite\.config\.[cmjt]s$/)
-    ) {
-      // Returning [] disables all HMR/restart for these files
-      return [];
-    }
-  }
-});
-
 export default defineConfig({
-  plugins: [react(), ignoreConfigAndEnvPlugin()],
+  plugins: [react()],
   server: {
     host: true,
     port: 3000,
     strictPort: true,
     open: false,
-    hmr: { clientPort: 3000 },
     watch: {
       ignored: [
         '**/.env',
@@ -39,7 +23,7 @@ export default defineConfig({
         '**/vite.config.js',
         '**/vite.config.mjs',
         '**/vite.config.ts',
-        '**/vite.config.cjs',
+        '**/vite.config.cjs'
       ]
     }
   },
@@ -48,8 +32,5 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     open: false
-  },
-  optimizeDeps: {
-    disabled: true
   }
 });
