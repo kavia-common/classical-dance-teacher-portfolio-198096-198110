@@ -4,79 +4,37 @@ This project provides a minimal React template with a clean, modern UI and minim
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Lightweight and modern UI
+- Minimal dependencies for fast loading
+- Simple and easy to modify
 
-## Getting Started
+## Environment variables
 
-In the project directory, you can run:
+Create a `.env` file based on `.env.example`:
+- REACT_APP_API_BASE: The origin of the backend (e.g., http://localhost:5000). This is preferred.
+- REACT_APP_BACKEND_URL: Optional fallback if REACT_APP_API_BASE is not provided.
 
-### `npm start`
+The Gallery feature fetches from `${REACT_APP_API_BASE}/api/gallery/` (or the fallback base).
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Verifying the Gallery
 
-### `npm test`
+1. Start the backend (Flask) at http://localhost:5000 (see backend README).
+2. Copy `.env.example` to `.env` and set:
+   ```
+   REACT_APP_API_BASE=http://localhost:5000
+   ```
+3. Run:
+   ```
+   npm install
+   npm start
+   ```
+4. Open http://localhost:3000 and click "Gallery" in the top-left nav.
+5. You should see sample images. If you see a 404, check:
+   - The backend is running and exposes GET /api/gallery/
+   - The .env is set and the app reloaded (CRA reads env at build time)
 
-Launches the test runner in interactive watch mode.
+## Scripts
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- npm start: Start development server
+- npm test: Run tests
+- npm run build: Build production bundle
