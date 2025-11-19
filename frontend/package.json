@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    // PUBLIC_INTERFACE
+    /** 
+     * All Vite scripts are static, no env expansion, no cross-env:
+     * - "start" and "dev" statically bind to 0.0.0.0:3000
+     * - "build" and "preview" are also static, no dynamic env or shell syntax
+     */
     "start": "vite --host 0.0.0.0 --port 3000",
     "dev": "vite --host 0.0.0.0 --port 3000",
     "build": "vite build",

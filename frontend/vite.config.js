@@ -3,13 +3,13 @@ import react from '@vitejs/plugin-react';
 
 // PUBLIC_INTERFACE
 /**
- * Vite config for React SPA.
- * - Dev server and preview always bind to 0.0.0.0:3000 with strictPort.
- * - HMR always connects to 3000.
- * - All .env* and vite.config.* reloads are ignored for server restarts, including both watcher and handleHotUpdate layer.
- * - No process.env, dotenv, or shell expansions used for server config.
- * - No plugins may inject runtime env or rewatch configs.
- * - Prevents server restart or HMR update for changes to .env* or vite.config.* files.
+ * Vite config for Classical Dance Teacher Profile frontend.
+ * - Dev and preview server bind 0.0.0.0:3000 (host: true, port: 3000, strictPort, open: false)
+ * - No process.env, no dynamic shell, no dotenv/cross-env, no runtime .env rewriting
+ * - Server/preview/HMR always listen on 3000
+ * - Prevents server restart/HMR on changes to .env* and vite.config.*
+ * - Watch ignores: ['**/.env*', '**/vite.config.*']
+ * - Additional plugin disables HMR/restart on env/config changes at handleHotUpdate layer
  */
 const ignoreConfigAndEnvPlugin = () => ({
   name: 'ignore-config-and-env-hotupdate',
@@ -32,7 +32,6 @@ export default defineConfig({
     strictPort: true,
     open: false,
     hmr: { clientPort: 3000 },
-    // Prevent Vite dev server from restarting on changes to .env* or vite.config.*
     watch: {
       ignored: [
         '**/.env',
@@ -40,7 +39,7 @@ export default defineConfig({
         '**/vite.config.js',
         '**/vite.config.mjs',
         '**/vite.config.ts',
-        '**/vite.config.cjs'
+        '**/vite.config.cjs',
       ]
     }
   },
@@ -50,7 +49,6 @@ export default defineConfig({
     strictPort: true,
     open: false
   },
-  // Ensures Vite dependency optimization does not rewrite configs
   optimizeDeps: {
     disabled: true
   }
