@@ -62,7 +62,7 @@ export default function App() {
           <li><a href="#about" style={{ color: '#2563EB', textDecoration: 'none' }}>About</a></li>
           <li><a href="#achievements" style={{ color: '#2563EB', textDecoration: 'none' }}>Achievements</a></li>
           <li><a href="#gallery" style={{ color: '#2563EB', textDecoration: 'none' }}>Gallery</a></li>
-          <li><a href="#classes" style={{ color: '#2563EB', textDecoration: 'none' }}>Classes & Schedule</a></li>
+          <li><a href="#classes" style={{ color: '#2563EB', textDecoration: 'none' }}>Bharatanatyam Classes</a></li>
           <li><a href="#contact" style={{ color: '#2563EB', textDecoration: 'none' }}>Contact</a></li>
         </ul>
       </nav>
