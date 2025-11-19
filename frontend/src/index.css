@@ -1,0 +1,26 @@
+/* Ocean Professional Theme: Blue (#2563EB), Amber (#F59E0B), backgrounds, etc. */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(120deg, #2563EB10 0%, #f9fafb 100%);
+  color: #111827;
+  min-height: 100vh;
+}
+a {
+  color: #2563EB;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #F59E0B;
+  text-decoration: underline;
+}
+h1,h2,h3,h4,h5 {
+  color: #2563EB;
+  margin-bottom: 0.5rem;
+}
+section {
+  box-shadow: 0 2px 8px #2563EB10;
+}
+
+/* Add further progressive enhancement per section as needed */
