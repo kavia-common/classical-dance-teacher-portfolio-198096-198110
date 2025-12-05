@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Achievements from './components/Achievements';
 import Gallery from './components/Gallery';
 import ClassesSchedule from './components/ClassesSchedule';
+import { AdminTokenProvider } from './admin/AdminTokenContext';
+import AdminHome from './admin/AdminHome';
+import AdminBookings from './admin/AdminBookings';
+import AdminGallery from './admin/AdminGallery';
 
 // PUBLIC_INTERFACE
 /**
@@ -11,6 +15,22 @@ import ClassesSchedule from './components/ClassesSchedule';
  * Smooth in-page navigation with accessible landmarks. Responsive layout.
  */
 export default function App() {
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const onPop = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  const isAdmin = useMemo(() => path === '/admin' || path.startsWith('/admin/'), [path]);
+
+  const navigate = (to) => {
+    if (to === path) return;
+    window.history.pushState({}, '', to);
+    setPath(to);
+  };
+
   return (
     <div
       style={{
@@ -67,7 +87,9 @@ export default function App() {
         </ul>
       </nav>
 
-      <main id="main" role="main" style={{ maxWidth: 1100, margin: '1.25rem auto', padding: '0 1rem' }}>
+      {!isAdmin && (
+        <main id="main" role="main" style={{ maxWidth: 1100, margin: '1.25rem auto', padding: '0 1rem' }}>
+      )}
         <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
           <h1 id="about-heading" style={{ color: '#2563EB', marginTop: 0 }}>About</h1>
           <p style={{ color: '#374151', lineHeight: 1.7 }}>
@@ -99,6 +121,15 @@ export default function App() {
           </ul>
         </section>
       </main>
+      )}
+
+      {isAdmin && (
+        <AdminTokenProvider>
+          {path === '/admin' && <AdminHome />}
+          {path === '/admin/bookings' && <AdminBookings />}
+          {path === '/admin/gallery' && <AdminGallery />}
+        </AdminTokenProvider>
+      )}
 
       <footer style={{
         textAlign: 'center',
@@ -107,6 +138,11 @@ export default function App() {
         borderTop: '1px solid #e5e7eb',
         color: '#2563EB'
       }}>
+        <div style={{ marginBottom: 6 }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/admin'); }} style={{ color: '#6B7280' }}>
+            Admin
+          </a>
+        </div>
         &copy; {new Date().getFullYear()} Classical Dance Teacher Portfolio
       </footer>
     </div>
