@@ -1,32 +1,21 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-/**
- * Minimal Vite 5 configuration without @vitejs/plugin-react.
- * - Uses esbuild's automatic JSX runtime for React 17+ so the plugin isn't required.
- * - Preserves server and preview host/port/allowedHosts settings from previous config.
- */
+// PUBLIC_INTERFACE
 export default defineConfig({
-  // Enable JSX handling via esbuild without the React plugin
-  esbuild: {
-    jsx: 'automatic',
-    jsxImportSource: 'react',
-  },
-
+  // Vite automatically loads .env and exposes variables prefixed with REACT_APP_
+  // No changes needed for env handling per requirements.
+  plugins: [react()],
   server: {
-    host: true,
+    // Bind to all interfaces to allow external access in dev
+    host: true, // equivalent to '0.0.0.0'
     port: 3000,
-    strictPort: true,
-    open: false,
   },
-
   preview: {
-    // Listen on all interfaces for preview
-    host: '0.0.0.0',
+    // Bind to all interfaces to allow external access in preview
+    host: true, // equivalent to '0.0.0.0'
     port: 3000,
-    // Merge existing allowed host(s) and add the required preview host
-    allowedHosts: [
-      'vscode-internal-33160-beta.beta01.cloud.kavia.ai',
-      'vscode-internal-25218-beta.beta01.cloud.kavia.ai'
-    ],
+    // Allowlisted hosts that are permitted to proxy/forward access to the preview server
+    allowedHosts: ['vscode-internal-22306-beta.beta01.cloud.kavia.ai'],
   },
 });
