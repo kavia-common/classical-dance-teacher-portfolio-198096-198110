@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Achievements from './components/Achievements';
 import Gallery from './components/Gallery';
 import ClassesSchedule from './components/ClassesSchedule';
+import BookingForm from './components/BookingForm';
 import { AdminTokenProvider } from './admin/AdminTokenContext';
 import AdminHome from './admin/AdminHome';
 import AdminBookings from './admin/AdminBookings';
@@ -113,14 +114,18 @@ export default function App() {
         <section id="contact" aria-labelledby="contact-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
           <h2 id="contact-heading" style={{ color: '#2563EB', marginTop: 0 }}>Contact</h2>
           <p style={{ color: '#374151' }}>
-            For inquiries and bookings, please reach out via email or phone. A contact form will be added soon.
+            For inquiries and bookings, please fill out the form below or reach out directly via email/phone.
           </p>
-          <ul style={{ marginTop: 8, color: '#111827' }}>
-            <li>Email: <a href="mailto:Sowbharnikaram@gmail.com">Sowbharnikaram@gmail.com</a></li>
-            <li>Phone: <a href="tel:+12672077324">+1 267 207 7324</a></li>
-          </ul>
+          <BookingForm />
+          <div style={{ marginTop: 12, color: '#111827' }}>
+            <div style={{ height: 1, background: '#e5e7eb', margin: '0.75rem 0' }} />
+            <ul style={{ marginTop: 8, paddingLeft: 16 }}>
+              <li>Email: <a href="mailto:Sowbharnikaram@gmail.com">Sowbharnikaram@gmail.com</a></li>
+              <li>Phone: <a href="tel:+12672077324">+1 267 207 7324</a></li>
+            </ul>
+          </div>
         </section>
-      </main>
+        </main>
       )}
 
       {isAdmin && (

@@ -84,6 +84,19 @@ export async function apiFetch(path, options = {}) {
 
 /**
  * PUBLIC_INTERFACE
+ * Post a public booking (no admin headers).
+ * payload: { name, email, phone, message, preferredDate }
+ */
+export async function postBooking(payload) {
+  return apiFetch('/bookings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }, // do NOT include X-Admin-Token for public
+    body: JSON.stringify(payload || {}),
+  });
+}
+
+/**
+ * PUBLIC_INTERFACE
  * Minimal toast event bus (no external deps). Components can listen to window events.
  */
 export function showToast(message, type = 'info') {
