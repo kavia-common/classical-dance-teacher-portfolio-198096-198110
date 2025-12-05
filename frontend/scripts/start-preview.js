@@ -26,9 +26,18 @@ async function pickPort() {
   const primary = 3000;
   const fallback = 3001;
   const primaryFree = await checkPort(primary);
-  if (primaryFree) return primary;
+  if (primaryFree) {
+    console.log(`Selected port ${primary} (preferred)`);
+    return primary;
+  }
   const fallbackFree = await checkPort(fallback);
-  return fallbackFree ? fallback : primary; // worst case, attempt primary (will error similarly as default behavior)
+  if (fallbackFree) {
+    console.log(`Port ${primary} is busy, falling back to ${fallback}`);
+    return fallback;
+  }
+  // Worst case, retry primary – vite will handle the error similarly
+  console.log(`Both ${primary} and ${fallback} appear busy, attempting ${primary}`);
+  return primary;
 }
 
 async function run() {

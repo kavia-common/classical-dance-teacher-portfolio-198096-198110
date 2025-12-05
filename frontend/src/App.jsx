@@ -90,38 +90,37 @@ export default function App() {
 
       {!isAdmin && (
         <main id="main" role="main" style={{ maxWidth: 1100, margin: '1.25rem auto', padding: '0 1rem' }}>
-      )}
-        <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
-          <h1 id="about-heading" style={{ color: '#2563EB', marginTop: 0 }}>About</h1>
-          <p style={{ color: '#374151', lineHeight: 1.7 }}>
-            <strong>Dr.Sowbharnika Thulasiram</strong> is a Doctor of Physical Therapy by profession
-            and a Bharathanatyam dancer by passion. A dedicated disciple of 
-            <strong> Dr.Vasundhara Doraswamy</strong>, she began her
-            Bharathanatyam journey at the tender age of five and has continued to
-            nurture her art with devotion and discipline.
-          </p>
-        </section>
+          <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
+            <h1 id="about-heading" style={{ color: '#2563EB', marginTop: 0 }}>About</h1>
+            <p style={{ color: '#374151', lineHeight: 1.7 }}>
+              <strong>Dr.Sowbharnika Thulasiram</strong> is a Doctor of Physical Therapy by profession
+              and a Bharathanatyam dancer by passion. A dedicated disciple of 
+              <strong> Dr.Vasundhara Doraswamy</strong>, she began her
+              Bharathanatyam journey at the tender age of five and has continued to
+              nurture her art with devotion and discipline.
+            </p>
+          </section>
 
-        <Achievements />
+          <Achievements />
 
-        <Gallery />
+          <Gallery />
 
-        <ClassesSchedule />
+          <ClassesSchedule />
 
-        <section id="contact" aria-labelledby="contact-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
-          <h2 id="contact-heading" style={{ color: '#2563EB', marginTop: 0 }}>Contact</h2>
-          <p style={{ color: '#374151' }}>
-            For inquiries and bookings, please fill out the form below or reach out directly via email/phone.
-          </p>
-          <BookingForm />
-          <div style={{ marginTop: 12, color: '#111827' }}>
-            <div style={{ height: 1, background: '#e5e7eb', margin: '0.75rem 0' }} />
-            <ul style={{ marginTop: 8, paddingLeft: 16 }}>
-              <li>Email: <a href="mailto:Sowbharnikaram@gmail.com">Sowbharnikaram@gmail.com</a></li>
-              <li>Phone: <a href="tel:+12672077324">+1 267 207 7324</a></li>
-            </ul>
-          </div>
-        </section>
+          <section id="contact" aria-labelledby="contact-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
+            <h2 id="contact-heading" style={{ color: '#2563EB', marginTop: 0 }}>Contact</h2>
+            <p style={{ color: '#374151' }}>
+              For inquiries and bookings, please fill out the form below or reach out directly via email/phone.
+            </p>
+            <BookingForm />
+            <div style={{ marginTop: 12, color: '#111827' }}>
+              <div style={{ height: 1, background: '#e5e7eb', margin: '0.75rem 0' }} />
+              <ul style={{ marginTop: 8, paddingLeft: 16 }}>
+                <li>Email: <a href="mailto:Sowbharnikaram@gmail.com">Sowbharnikaram@gmail.com</a></li>
+                <li>Phone: <a href="tel:+12672077324">+1 267 207 7324</a></li>
+              </ul>
+            </div>
+          </section>
         </main>
       )}
 
