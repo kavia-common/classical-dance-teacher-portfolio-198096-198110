@@ -83,7 +83,10 @@ export default function Gallery({ images }) {
   }, [images, fetched]);
 
   // Duplicate the array for marquee seamless loop
-  const marqueeImages = useMemo(() => [...baseImages, ...baseImages], [baseImages]);
+  const marqueeImages = useMemo(() => {
+    const arr = Array.isArray(baseImages) ? baseImages : [];
+    return arr.length ? [...arr, ...arr] : [];
+  }, [baseImages]);
 
   // Modal/lightbox state
   const [isOpen, setIsOpen] = useState(false);
@@ -235,6 +238,11 @@ export default function Gallery({ images }) {
             animation: prefersReducedMotion || pauseMarquee ? 'none' : 'marquee-slide 30s linear infinite',
           }}
         >
+          {marqueeImages.length === 0 && (
+            <div style={{ padding: '1rem', color: 'var(--muted)' }}>
+              No images to display.
+            </div>
+          )}
           {marqueeImages.map((img, idx) => {
             const originalIndex = idx % baseImages.length;
             const objPos = computeObjectPosition(img);
@@ -276,7 +284,7 @@ export default function Gallery({ images }) {
       </div>
 
       {/* Lightbox modal */}
-      {isOpen && (
+      {isOpen && baseImages.length > 0 && (
         <div
           role="dialog"
           aria-modal="true"
@@ -473,8 +481,11 @@ function controlStyle() {
  * Compute CSS object-position string from image focalPoint metadata.
  */
 function computeObjectPosition(img) {
-  const fp = img && img.focalPoint;
-  const x = fp && isFinite(fp.x) ? Math.max(0, Math.min(1, fp.x)) : 0.5;
-  const y = fp && isFinite(fp.y) ? Math.max(0, Math.min(1, fp.y)) : 0.5;
+  if (!img || !img.focalPoint) {
+    return '50.0% 50.0%';
+  }
+  const fp = img.focalPoint;
+  const x = Number.isFinite(fp.x) ? Math.max(0, Math.min(1, fp.x)) : 0.5;
+  const y = Number.isFinite(fp.y) ? Math.max(0, Math.min(1, fp.y)) : 0.5;
   return `${(x * 100).toFixed(1)}% ${(y * 100).toFixed(1)}%`;
 }
