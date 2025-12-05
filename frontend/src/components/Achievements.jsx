@@ -8,19 +8,24 @@ import React from 'react';
 export default function Achievements({ items }) {
   const achievements = items || [
     {
-      title: 'National Dance Award',
-      year: '2022',
-      description: 'Recognized for excellence in classical dance performance and pedagogy.',
+      title: 'Balashree Award',
+      year: '2011',
+      description: ' A national honor recognizing outstanding creativity and talent in children across India in fields like art, science, literature, and performance..',
     },
     {
-      title: 'International Festival Headliner',
-      year: '2021',
-      description: 'Headlined a cross-cultural festival showcasing traditional and contemporary forms.',
+      title: 'Mysore Dasara Award',
+      year: '2011',
+      description: 'A prestigious honor presented during Karnataka’s grand Dasara festival, recognizing excellence in Bharatanatyam and celebrating India’s rich classical dance heritage.',
     },
     {
-      title: 'Senior Guru Recognition',
-      year: '2019',
-      description: 'Awarded for outstanding contribution to teaching and preserving classical repertoire.',
+      title: 'Kalaratnam Award',
+      year: '2012',
+      description: 'A distinguished honor celebrating mastery and contribution to Bharatanatyam, recognizing exceptional artistry and dedication to this classical dance form.',
+    },
+    {
+      title: 'Kalashree Award',
+      year: '2013',
+      description: 'A prestigious recognition honoring exceptional skill and dedication in Bharatanatyam, celebrating excellence in this classical dance tradition.',
     },
   ];
 
