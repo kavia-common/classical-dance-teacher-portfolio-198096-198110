@@ -232,65 +232,7 @@ export default function Gallery({ images }) {
         </div>
       </div>
 
-      {/* Grid thumbnails: hidden while lightbox is open */}
-      {!isOpen && (
-        <div
-          role="list"
-          aria-label="Photo gallery"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1rem',
-            marginTop: '1rem',
-          }}
-        >
-          {baseImages.map((img, idx) => (
-            <figure
-              key={`${img.src}-${idx}`}
-              role="listitem"
-              style={{
-                margin: 0,
-                borderRadius: 14,
-                overflow: 'hidden',
-                border: '1px solid var(--border)',
-                background: 'var(--bg)',
-              }}
-            >
-              <button
-                onClick={(e) => openModal(idx, e.currentTarget)}
-                aria-label={`Open image: ${img.alt || 'Photo'}`}
-                style={{
-                  padding: 0,
-                  margin: 0,
-                  border: 0,
-                  width: '100%',
-                  background: 'transparent',
-                  display: 'block',
-                  cursor: 'pointer',
-                }}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    height: 'clamp(200px, 28vw, 360px)',
-                    objectFit: 'cover',
-                  }}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              </button>
-              {img.caption && (
-                <figcaption style={{ padding: '0.6rem 0.85rem', fontSize: '0.95rem', color: 'var(--muted)', background: 'var(--surface)' }}>
-                  {img.caption}
-                </figcaption>
-              )}
-            </figure>
-          ))}
-        </div>
-      )}
+
 
       {/* Lightbox modal */}
       {isOpen && (
