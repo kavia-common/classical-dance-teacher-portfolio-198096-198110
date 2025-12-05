@@ -6,7 +6,7 @@ import React, { useMemo, useState } from 'react';
  * Displays Bharatanatyam-only offerings with levels, kids batch, and weekend workshops.
  * Uses mock static data, Ocean Professional styling, and is accessible/responsive.
  */
-export default function ClassesSchedule({ data }) {
+export default function ClassesSchedule({ data, onRequestBooking }) {
   // Bharatanatyam-only mock schedule with realistic placeholders
   const mock = useMemo(
     () =>
@@ -196,7 +196,19 @@ export default function ClassesSchedule({ data }) {
               <button
                 type="button"
                 aria-label={`Request booking for Bharatanatyam ${c.level} on ${c.day} at ${c.time}`}
-                onClick={() => alert('Booking flow coming soon')}
+                onClick={() =>
+                  onRequestBooking?.({
+                    id: c.id,
+                    style: c.style,
+                    level: c.level,
+                    day: c.day,
+                    time: c.time,
+                    duration: c.duration,
+                    mode: c.mode,
+                    location: c.location,
+                    instructor: c.instructor,
+                  })
+                }
                 style={{
                   background: 'var(--primary)',
                   color: '#fff',

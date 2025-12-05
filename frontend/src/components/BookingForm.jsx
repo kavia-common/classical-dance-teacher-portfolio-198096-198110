@@ -10,7 +10,7 @@ import { apiFetch } from '../utils/api';
  * - Accessibility: labels, aria-invalid, aria-describedby, aria-live status
  * - Honeypot field to deter bots
  */
-export default function BookingForm({ defaultValues = {} }) {
+export default function BookingForm({ defaultValues = {}, selectedOption = null }) {
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -66,6 +66,19 @@ export default function BookingForm({ defaultValues = {} }) {
       phone: form.phone.trim(),
       message: form.message.trim(),
       preferredDate: form.preferredDate,
+      selectedOption: selectedOption
+        ? {
+            id: selectedOption.id,
+            style: selectedOption.style,
+            level: selectedOption.level,
+            day: selectedOption.day,
+            time: selectedOption.time,
+            duration: selectedOption.duration,
+            mode: selectedOption.mode,
+            location: selectedOption.location,
+            instructor: selectedOption.instructor,
+          }
+        : null,
     };
     await apiFetch('/bookings', {
       method: 'POST',
@@ -122,6 +135,39 @@ export default function BookingForm({ defaultValues = {} }) {
       >
         Request a Booking
       </h3>
+
+      {selectedOption && (
+        <div
+          role="group"
+          aria-label="Selected class details"
+          style={{
+            gridColumn: '1 / -1',
+            display: 'grid',
+            gridTemplateColumns: 'auto 1fr',
+            gap: '0.4rem 0.75rem',
+            padding: '0.75rem',
+            border: '1px dashed var(--border)',
+            borderRadius: 8,
+            background: 'linear-gradient(180deg, rgba(245,158,11,0.07) 0%, var(--surface) 100%)',
+            color: 'var(--text)',
+            marginBottom: '0.25rem',
+          }}
+        >
+          <div style={{ fontWeight: 700, gridColumn: '1 / -1', color: 'var(--secondary)' }}>
+            You’re booking:
+          </div>
+          <span style={{ color: 'var(--muted)' }}>Style</span>
+          <span>{selectedOption.style}</span>
+          <span style={{ color: 'var(--muted)' }}>Level</span>
+          <span>{selectedOption.level}</span>
+          <span style={{ color: 'var(--muted)' }}>Day</span>
+          <span>{selectedOption.day}</span>
+          <span style={{ color: 'var(--muted)' }}>Time</span>
+          <span>{selectedOption.time}</span>
+          <span style={{ color: 'var(--muted)' }}>Duration</span>
+          <span>{selectedOption.duration}</span>
+        </div>
+      )}
 
       {/* Name */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
