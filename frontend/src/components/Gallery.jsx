@@ -1,47 +1,86 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { apiFetch } from '../utils/api';
 
 /**
  * PUBLIC_INTERFACE
  * Gallery section component with:
+ * - Fetch images from backend public endpoint (/api/gallery)
  * - Clickable thumbnails opening an accessible lightbox (ESC to close, arrow keys for next/prev)
  * - Focus trapping within modal and return focus to trigger on close
  * - Continuous left-to-right auto-scrolling marquee strip that pauses on hover/focus and when modal open
+ * - Applies saved focalPoint (x,y 0..1) via CSS object-position for marquee previews
  * - Respects prefers-reduced-motion and site tokens (light/dark)
  */
 export default function Gallery({ images }) {
-  // Use placeholder assets if none are provided
-  const baseImages = images || [
+  // Load images from backend if not passed as prop
+  const [fetched, setFetched] = useState(null);
+  const [loadErr, setLoadErr] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      if (Array.isArray(images) && images.length) {
+        setFetched(images);
+        return;
+      }
+      try {
+        const data = await apiFetch('/gallery', { headers: { Accept: 'application/json' } });
+        if (mounted) setFetched(Array.isArray(data) ? data : []);
+      } catch (e) {
+        if (mounted) {
+          setLoadErr(e.message || 'Failed to load gallery');
+          setFetched([]);
+        }
+      }
+    })();
+    return () => { mounted = false; };
+  }, [images]);
+
+  // Fallback placeholders
+  const placeholders = [
     {
       src: 'https://images.pexels.com/photos/26856873/pexels-photo-26856873.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Classical dance pose silhouette on stage',
       caption: 'Graceful pose on stage',
+      focalPoint: { x: 0.5, y: 0.5 },
     },
     {
       src: 'https://images.pexels.com/photos/31880368/pexels-photo-31880368.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Traditional costume detail',
       caption: 'Traditional costume details',
+      focalPoint: { x: 0.5, y: 0.5 },
     },
     {
       src: 'https://images.pexels.com/photos/16039776/pexels-photo-16039776.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Practice session in studio',
       caption: 'Practice session',
+      focalPoint: { x: 0.5, y: 0.5 },
     },
     {
       src: 'https://images.pexels.com/photos/20134504/pexels-photo-20134504.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Performance with live musicians',
       caption: 'Performance night',
+      focalPoint: { x: 0.5, y: 0.5 },
     },
     {
       src: 'https://images.pexels.com/photos/20134505/pexels-photo-20134505.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Anklet bells and footwork',
       caption: 'Rhythmic footwork',
+      focalPoint: { x: 0.5, y: 0.5 },
     },
     {
       src: 'https://images.pexels.com/photos/33638407/pexels-photo-33638407.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Elegant hand gestures closeup',
       caption: 'Elegant mudras',
+      focalPoint: { x: 0.5, y: 0.5 },
     },
   ];
+
+  const baseImages = useMemo(() => {
+    if (Array.isArray(images) && images.length) return images;
+    if (Array.isArray(fetched) && fetched.length) return fetched;
+    return placeholders;
+  }, [images, fetched]);
 
   // Duplicate the array for marquee seamless loop
   const marqueeImages = useMemo(() => [...baseImages, ...baseImages], [baseImages]);
@@ -167,7 +206,9 @@ export default function Gallery({ images }) {
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
         <div>
           <h2 id="gallery-heading" style={{ color: 'var(--primary)', margin: 0 }}>Gallery</h2>
-          <p style={{ marginTop: 6, color: 'var(--muted-2)' }}>Glimpses from performances and practice.</p>
+          <p style={{ marginTop: 6, color: 'var(--muted-2)' }}>
+            {loadErr ? `Error: ${loadErr}` : 'Glimpses from performances and practice.'}
+          </p>
         </div>
         <span aria-hidden="true" style={{ color: 'var(--secondary)', fontWeight: 600 }}>Visual stories</span>
       </div>
@@ -196,6 +237,7 @@ export default function Gallery({ images }) {
         >
           {marqueeImages.map((img, idx) => {
             const originalIndex = idx % baseImages.length;
+            const objPos = computeObjectPosition(img);
             return (
               <button
                 key={`${img.src}-marquee-${idx}`}
@@ -220,6 +262,7 @@ export default function Gallery({ images }) {
                     width: 320,           // larger thumbnails for better visibility
                     height: 200,
                     objectFit: 'cover',
+                    objectPosition: objPos,
                   }}
                   srcSet={`
                     ${img.src} 1x
@@ -231,8 +274,6 @@ export default function Gallery({ images }) {
           })}
         </div>
       </div>
-
-
 
       {/* Lightbox modal */}
       {isOpen && (
@@ -294,7 +335,7 @@ export default function Gallery({ images }) {
                   aria-label="Close viewer"
                   style={controlStyle()}
                 >
-                  ✕
+                  ×
                 </button>
               </div>
               <div
@@ -338,7 +379,7 @@ export default function Gallery({ images }) {
                 </button>
               </div>
             </div>
-            {baseImages[activeIndex].caption && (
+            {!!baseImages[activeIndex].caption && (
               <div style={{ padding: '0.85rem 1rem', color: 'var(--muted)' }}>
                 {baseImages[activeIndex].caption}
               </div>
@@ -425,4 +466,15 @@ function controlStyle() {
     cursor: 'pointer',
     boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
   };
+}
+
+/**
+ * PUBLIC_INTERFACE
+ * Compute CSS object-position string from image focalPoint metadata.
+ */
+function computeObjectPosition(img) {
+  const fp = img && img.focalPoint;
+  const x = fp && isFinite(fp.x) ? Math.max(0, Math.min(1, fp.x)) : 0.5;
+  const y = fp && isFinite(fp.y) ? Math.max(0, Math.min(1, fp.y)) : 0.5;
+  return `${(x * 100).toFixed(1)}% ${(y * 100).toFixed(1)}%`;
 }
