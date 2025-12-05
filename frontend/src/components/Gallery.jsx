@@ -188,9 +188,8 @@ export default function Gallery({ images }) {
         <div
           style={{
             display: 'flex',
-            gap: '0.5rem',
-            padding: '0.5rem',
-            // CSS animation for continuous left-to-right movement (translateX from -50% to 0%)
+            gap: '0.75rem',
+            padding: '0.75rem',
             width: 'max-content',
             animation: prefersReducedMotion || pauseMarquee ? 'none' : 'marquee-slide 30s linear infinite',
           }}
@@ -207,9 +206,9 @@ export default function Gallery({ images }) {
                   border: '1px solid var(--border)',
                   background: 'var(--surface)',
                   padding: 0,
-                  borderRadius: 10,
+                  borderRadius: 12,
                   overflow: 'hidden',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.07)',
                 }}
               >
                 <img
@@ -218,10 +217,14 @@ export default function Gallery({ images }) {
                   loading="lazy"
                   style={{
                     display: 'block',
-                    width: 220,
-                    height: 120,
+                    width: 320,           // larger thumbnails for better visibility
+                    height: 200,
                     objectFit: 'cover',
                   }}
+                  srcSet={`
+                    ${img.src} 1x
+                  `}
+                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
                 />
               </button>
             );
@@ -229,62 +232,65 @@ export default function Gallery({ images }) {
         </div>
       </div>
 
-      {/* Grid thumbnails */}
-      <div
-        role="list"
-        aria-label="Photo gallery"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: '0.75rem',
-          marginTop: '1rem',
-        }}
-      >
-        {baseImages.map((img, idx) => (
-          <figure
-            key={`${img.src}-${idx}`}
-            role="listitem"
-            style={{
-              margin: 0,
-              borderRadius: 12,
-              overflow: 'hidden',
-              border: '1px solid var(--border)',
-              background: 'var(--bg)',
-            }}
-          >
-            <button
-              onClick={(e) => openModal(idx, e.currentTarget)}
-              aria-label={`Open image: ${img.alt || 'Photo'}`}
+      {/* Grid thumbnails: hidden while lightbox is open */}
+      {!isOpen && (
+        <div
+          role="list"
+          aria-label="Photo gallery"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '1rem',
+            marginTop: '1rem',
+          }}
+        >
+          {baseImages.map((img, idx) => (
+            <figure
+              key={`${img.src}-${idx}`}
+              role="listitem"
               style={{
-                padding: 0,
                 margin: 0,
-                border: 0,
-                width: '100%',
-                background: 'transparent',
-                display: 'block',
-                cursor: 'pointer',
+                borderRadius: 14,
+                overflow: 'hidden',
+                border: '1px solid var(--border)',
+                background: 'var(--bg)',
               }}
             >
-              <img
-                src={img.src}
-                alt={img.alt}
-                loading="lazy"
+              <button
+                onClick={(e) => openModal(idx, e.currentTarget)}
+                aria-label={`Open image: ${img.alt || 'Photo'}`}
                 style={{
-                  display: 'block',
+                  padding: 0,
+                  margin: 0,
+                  border: 0,
                   width: '100%',
-                  height: 180,
-                  objectFit: 'cover',
+                  background: 'transparent',
+                  display: 'block',
+                  cursor: 'pointer',
                 }}
-              />
-            </button>
-            {img.caption && (
-              <figcaption style={{ padding: '0.5rem 0.75rem', fontSize: '0.9rem', color: 'var(--muted)', background: 'var(--surface)' }}>
-                {img.caption}
-              </figcaption>
-            )}
-          </figure>
-        ))}
-      </div>
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    height: 'clamp(200px, 28vw, 360px)',
+                    objectFit: 'cover',
+                  }}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+              </button>
+              {img.caption && (
+                <figcaption style={{ padding: '0.6rem 0.85rem', fontSize: '0.95rem', color: 'var(--muted)', background: 'var(--surface)' }}>
+                  {img.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      )}
 
       {/* Lightbox modal */}
       {isOpen && (
@@ -294,13 +300,12 @@ export default function Gallery({ images }) {
           aria-label="Image viewer"
           ref={modalRef}
           onClick={(e) => {
-            // close on backdrop click only
             if (e.target === e.currentTarget) closeModal();
           }}
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'color-mix(in oklab, var(--bg), black 50%)',
+            background: 'color-mix(in oklab, var(--bg), black 55%)',
             display: 'grid',
             placeItems: 'center',
             zIndex: 1000,
@@ -309,22 +314,22 @@ export default function Gallery({ images }) {
           <div
             style={{
               position: 'relative',
-              maxWidth: 'min(90vw, 1100px)',
-              maxHeight: '85vh',
+              width: 'min(96vw, 1200px)',
+              maxHeight: '92vh',
               background: 'var(--surface)',
-              borderRadius: 12,
+              borderRadius: 14,
               border: '1px solid var(--border)',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.35)',
+              boxShadow: '0 16px 48px rgba(0,0,0,0.4)',
               overflow: 'hidden',
             }}
           >
-            <div style={{ position: 'relative', background: 'var(--bg)' }}>
+            <div style={{ position: 'relative', background: 'var(--bg)', display: 'grid', placeItems: 'center' }}>
               <img
                 src={baseImages[activeIndex].src}
                 alt={baseImages[activeIndex].alt}
                 style={{
-                  width: '100%',
-                  height: 'min(70vh, 600px)',
+                  maxWidth: '100%',
+                  maxHeight: 'calc(92vh - 80px)', // keep within viewport
                   objectFit: 'contain',
                   display: 'block',
                   background: 'var(--bg)',
@@ -392,7 +397,7 @@ export default function Gallery({ images }) {
               </div>
             </div>
             {baseImages[activeIndex].caption && (
-              <div style={{ padding: '0.75rem 1rem', color: 'var(--muted)' }}>
+              <div style={{ padding: '0.85rem 1rem', color: 'var(--muted)' }}>
                 {baseImages[activeIndex].caption}
               </div>
             )}
