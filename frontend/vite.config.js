@@ -20,9 +20,13 @@ export default defineConfig({
   },
 
   preview: {
-    host: true,
+    // Listen on all interfaces for preview
+    host: '0.0.0.0',
     port: 3000,
-    // preserve allowedHosts list used previously
-    allowedHosts: ['vscode-internal-33160-beta.beta01.cloud.kavia.ai'],
+    // Merge existing allowed host(s) and add the required preview host
+    allowedHosts: [
+      'vscode-internal-33160-beta.beta01.cloud.kavia.ai',
+      'vscode-internal-25218-beta.beta01.cloud.kavia.ai'
+    ],
   },
 });

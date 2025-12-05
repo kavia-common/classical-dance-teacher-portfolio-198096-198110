@@ -57,7 +57,7 @@ export default function App() {
         justifyContent: 'space-between',
         boxShadow: '0 4px 12px 0 rgba(37,99,235,0.06)'
       }}>
-        <span style={{ fontWeight: 800, color: '#2563EB', fontSize: '1.1rem', letterSpacing: 1.2 }}>Classical Dance Teacher</span>
+        <span style={{ fontWeight: 800, color: '#2563EB', fontSize: '1.1rem', letterSpacing: 1.2 }}>Dr.Sowbharnika Thulasiram</span>
         <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', margin: 0, padding: 0, flexWrap: 'wrap' }}>
           <li><a href="#about" style={{ color: '#2563EB', textDecoration: 'none' }}>About</a></li>
           <li><a href="#achievements" style={{ color: '#2563EB', textDecoration: 'none' }}>Achievements</a></li>
@@ -71,9 +71,15 @@ export default function App() {
         <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
           <h1 id="about-heading" style={{ color: '#2563EB', marginTop: 0 }}>About</h1>
           <p style={{ color: '#374151', lineHeight: 1.7 }}>
-            A dedicated classical dance teacher with a passion for sharing tradition through modern pedagogy.
-            Emphasizing strong foundations, expressive storytelling, and inclusive learning environments.
-          </p>
+           
+<p>
+        <strong>Dr.Sowbharnika Thulasiram</strong> is a Doctor of Physical Therapy by profession
+        and a Bharathanatyam dancer by passion. A dedicated disciple of 
+        <strong> Dr.Vasundhara Doraswamy</strong>, she began her
+        Bharathanatyam journey at the tender age of five and has continued to
+        nurture her art with devotion and discipline.
+      </p>
+    </p>
         </section>
 
         <Achievements />
@@ -88,8 +94,8 @@ export default function App() {
             For inquiries and bookings, please reach out via email or phone. A contact form will be added soon.
           </p>
           <ul style={{ marginTop: 8, color: '#111827' }}>
-            <li>Email: <a href="mailto:teacher@example.com">teacher@example.com</a></li>
-            <li>Phone: <a href="tel:+1234567890">+1 234 567 890</a></li>
+            <li>Email: <a href="mailto:Sowbharnikaram@gmail.com">Sowbharnikaram@gmail.com</a></li>
+            <li>Phone: <a href="tel:+12672077324">+1 267 207 7324</a></li>
           </ul>
         </section>
       </main>
