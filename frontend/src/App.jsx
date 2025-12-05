@@ -3,6 +3,7 @@ import Achievements from './components/Achievements';
 import Gallery from './components/Gallery';
 import ClassesSchedule from './components/ClassesSchedule';
 import BookingForm from './components/BookingForm';
+import Modal from './components/Modal';
 import { AdminTokenProvider } from './admin/AdminTokenContext';
 import AdminHome from './admin/AdminHome';
 import AdminBookings from './admin/AdminBookings';
@@ -32,6 +33,11 @@ export default function App() {
     window.history.pushState({}, '', to);
     setPath(to);
   };
+
+  const [bookingOpen, setBookingOpen] = useState(false);
+
+  const openBooking = () => setBookingOpen(true);
+  const closeBooking = () => setBookingOpen(false);
 
   return (
     <div
@@ -88,6 +94,23 @@ export default function App() {
             <li><a href="#classes" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Bharatanatyam Classes</a></li>
             <li><a href="#contact" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Contact</a></li>
           </ul>
+          <button
+            onClick={openBooking}
+            style={{
+              background: 'var(--secondary)',
+              color: '#111',
+              border: 'none',
+              padding: '0.5rem 0.9rem',
+              borderRadius: 999,
+              cursor: 'pointer',
+              fontWeight: 800,
+              boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+            }}
+            aria-haspopup="dialog"
+            aria-controls="booking-modal-title"
+          >
+            Request booking
+          </button>
           <ThemeToggle />
         </div>
       </nav>
@@ -114,9 +137,25 @@ export default function App() {
           <section id="contact" aria-labelledby="contact-heading" style={{ margin: '2rem 0', padding: '2rem', background: 'var(--surface)', borderRadius: 12, boxShadow: 'var(--section-shadow)' }}>
             <h2 id="contact-heading" style={{ color: 'var(--primary)', marginTop: 0 }}>Contact</h2>
             <p style={{ color: 'var(--muted)' }}>
-              For inquiries and bookings, please fill out the form below or reach out directly via email/phone.
+              For inquiries and bookings, use the button below or reach out directly via email/phone.
             </p>
-            <BookingForm />
+            <button
+              onClick={openBooking}
+              style={{
+                background: 'var(--primary)',
+                color: '#fff',
+                border: 'none',
+                padding: '0.6rem 1rem',
+                borderRadius: 8,
+                cursor: 'pointer',
+                fontWeight: 700,
+                boxShadow: '0 1px 2px rgba(37,99,235,0.25)',
+              }}
+              aria-haspopup="dialog"
+              aria-controls="booking-modal-title"
+            >
+              Request booking
+            </button>
             <div style={{ marginTop: 12, color: 'var(--text)' }}>
               <div style={{ height: 1, background: 'var(--border)', margin: '0.75rem 0' }} />
               <ul style={{ marginTop: 8, paddingLeft: 16 }}>
@@ -135,6 +174,21 @@ export default function App() {
           {path === '/admin/gallery' && <AdminGallery />}
         </AdminTokenProvider>
       )}
+
+      {/* Booking Form Modal */}
+      <Modal
+        isOpen={bookingOpen}
+        onClose={closeBooking}
+        title="Request a Booking"
+        labelledById="booking-modal-title"
+        initialFocusSelector="form button[type='submit']"
+      >
+        {/* Heading for aria-labelledby */}
+        <h3 id="booking-modal-title" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }}>
+          Request a Booking
+        </h3>
+        <BookingForm />
+      </Modal>
 
       <footer style={{
         textAlign: 'center',
