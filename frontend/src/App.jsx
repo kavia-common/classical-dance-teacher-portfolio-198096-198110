@@ -94,15 +94,12 @@ export default function App() {
         <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
           <h1 id="about-heading" style={{ color: '#2563EB', marginTop: 0 }}>About</h1>
           <p style={{ color: '#374151', lineHeight: 1.7 }}>
-           
-<p>
-        <strong>Dr.Sowbharnika Thulasiram</strong> is a Doctor of Physical Therapy by profession
-        and a Bharathanatyam dancer by passion. A dedicated disciple of 
-        <strong> Dr.Vasundhara Doraswamy</strong>, she began her
-        Bharathanatyam journey at the tender age of five and has continued to
-        nurture her art with devotion and discipline.
-      </p>
-    </p>
+            <strong>Dr.Sowbharnika Thulasiram</strong> is a Doctor of Physical Therapy by profession
+            and a Bharathanatyam dancer by passion. A dedicated disciple of 
+            <strong> Dr.Vasundhara Doraswamy</strong>, she began her
+            Bharathanatyam journey at the tender age of five and has continued to
+            nurture her art with devotion and discipline.
+          </p>
         </section>
 
         <Achievements />
