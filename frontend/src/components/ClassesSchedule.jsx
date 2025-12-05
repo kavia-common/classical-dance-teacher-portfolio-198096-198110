@@ -91,9 +91,9 @@ export default function ClassesSchedule({ data }) {
       style={{
         margin: '2rem 0',
         padding: '2rem',
-        background: '#ffffff',
+        background: 'var(--surface)',
         borderRadius: 12,
-        boxShadow: '0 2px 8px rgba(37,99,235,0.08)',
+        boxShadow: 'var(--section-shadow)',
       }}
     >
       <div
@@ -106,16 +106,16 @@ export default function ClassesSchedule({ data }) {
         }}
       >
         <div>
-          <h2 id="classes-heading" style={{ color: '#2563EB', margin: 0 }}>
+          <h2 id="classes-heading" style={{ color: 'var(--primary)', margin: 0 }}>
             Bharatanatyam Classes & Schedule
           </h2>
-          <p style={{ marginTop: 6, color: '#4B5563' }}>
+          <p style={{ marginTop: 6, color: 'var(--muted-2)' }}>
             Weekly sessions, kids batch, and weekend workshops. All timings are local.
           </p>
         </div>
 
         <label htmlFor="level-filter" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ color: '#374151' }}>Filter by Level:</span>
+          <span style={{ color: 'var(--muted)' }}>Filter by Level:</span>
           <select
             id="level-filter"
             aria-label="Filter Bharatanatyam classes by level"
@@ -124,10 +124,10 @@ export default function ClassesSchedule({ data }) {
             style={{
               padding: '0.5rem 0.75rem',
               borderRadius: 8,
-              border: '1px solid #E5E7EB',
-              color: '#111827',
-              background: '#fff',
-              outlineColor: '#2563EB',
+              border: '1px solid var(--border)',
+              color: 'var(--text)',
+              background: 'var(--surface)',
+              outlineColor: 'var(--primary)',
             }}
           >
             {levels.map((lvl) => (
@@ -154,19 +154,19 @@ export default function ClassesSchedule({ data }) {
             key={c.id}
             role="listitem"
             style={{
-              border: '1px solid #E5E7EB',
+              border: '1px solid var(--border)',
               borderRadius: 12,
               padding: '1rem',
-              background: 'linear-gradient(180deg, rgba(245,158,11,0.07) 0%, #fff 100%)',
+              background: 'linear-gradient(180deg, rgba(245,158,11,0.07) 0%, var(--surface) 100%)',
             }}
           >
             <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-              <h3 style={{ margin: 0, color: '#111827', fontSize: '1.05rem' }}>
-                Bharatanatyam — <span style={{ color: '#2563EB' }}>{c.level}</span>
+              <h3 style={{ margin: 0, color: 'var(--text)', fontSize: '1.05rem' }}>
+                Bharatanatyam — <span style={{ color: 'var(--primary)' }}>{c.level}</span>
               </h3>
-              <span style={{ color: '#F59E0B', fontWeight: 600, fontSize: '0.9rem' }}>{c.mode}</span>
+              <span style={{ color: 'var(--secondary)', fontWeight: 600, fontSize: '0.9rem' }}>{c.mode}</span>
             </header>
-            <dl style={{ margin: 0, color: '#374151' }}>
+            <dl style={{ margin: 0, color: 'var(--muted)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
                 <dt style={{ fontWeight: 600 }}>Day</dt>
                 <dd style={{ margin: 0 }}>{c.day}</dd>
@@ -188,7 +188,7 @@ export default function ClassesSchedule({ data }) {
                 <dd style={{ margin: 0 }}>{c.instructor}</dd>
               </div>
             </dl>
-            {c.notes && <p style={{ marginTop: 8, color: '#4B5563' }}>{c.notes}</p>}
+            {c.notes && <p style={{ marginTop: 8, color: 'var(--muted-2)' }}>{c.notes}</p>}
             <div style={{ marginTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
               <span aria-hidden="true" style={{ color: '#6B7280', fontSize: '0.85rem' }}>
                 Limited seats. Pre-booking recommended.
@@ -198,7 +198,7 @@ export default function ClassesSchedule({ data }) {
                 aria-label={`Request booking for Bharatanatyam ${c.level} on ${c.day} at ${c.time}`}
                 onClick={() => alert('Booking flow coming soon')}
                 style={{
-                  background: '#2563EB',
+                  background: 'var(--primary)',
                   color: '#fff',
                   border: 'none',
                   padding: '0.5rem 0.9rem',

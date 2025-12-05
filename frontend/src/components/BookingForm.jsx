@@ -118,15 +118,15 @@ export default function BookingForm({ defaultValues = {} }) {
     >
       <h3
         id="booking-form-heading"
-        style={{ gridColumn: '1 / -1', marginTop: 0, color: '#2563EB' }}
+        style={{ gridColumn: '1 / -1', marginTop: 0, color: 'var(--primary)' }}
       >
         Request a Booking
       </h3>
 
       {/* Name */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label htmlFor="bf-name" style={{ color: '#374151', fontWeight: 600 }}>
-          Name<span aria-hidden="true" style={{ color: '#EF4444' }}> *</span>
+        <label htmlFor="bf-name" style={{ color: 'var(--muted)', fontWeight: 600 }}>
+          Name<span aria-hidden="true" style={{ color: 'var(--error)' }}> *</span>
         </label>
         <input
           id="bf-name"
@@ -149,8 +149,8 @@ export default function BookingForm({ defaultValues = {} }) {
 
       {/* Email */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label htmlFor="bf-email" style={{ color: '#374151', fontWeight: 600 }}>
-          Email<span aria-hidden="true" style={{ color: '#EF4444' }}> *</span>
+        <label htmlFor="bf-email" style={{ color: 'var(--muted)', fontWeight: 600 }}>
+          Email<span aria-hidden="true" style={{ color: 'var(--error)' }}> *</span>
         </label>
         <input
           id="bf-email"
@@ -173,8 +173,8 @@ export default function BookingForm({ defaultValues = {} }) {
 
       {/* Phone */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label htmlFor="bf-phone" style={{ color: '#374151', fontWeight: 600 }}>
-          Phone<span aria-hidden="true" style={{ color: '#EF4444' }}> *</span>
+        <label htmlFor="bf-phone" style={{ color: 'var(--muted)', fontWeight: 600 }}>
+          Phone<span aria-hidden="true" style={{ color: 'var(--error)' }}> *</span>
         </label>
         <input
           id="bf-phone"
@@ -197,8 +197,8 @@ export default function BookingForm({ defaultValues = {} }) {
 
       {/* Preferred Date */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <label htmlFor="bf-date" style={{ color: '#374151', fontWeight: 600 }}>
-          Preferred Date<span aria-hidden="true" style={{ color: '#EF4444' }}> *</span>
+        <label htmlFor="bf-date" style={{ color: 'var(--muted)', fontWeight: 600 }}>
+          Preferred Date<span aria-hidden="true" style={{ color: 'var(--error)' }}> *</span>
         </label>
         <input
           id="bf-date"
@@ -222,9 +222,9 @@ export default function BookingForm({ defaultValues = {} }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, gridColumn: '1 / -1' }}>
         <label
           htmlFor="bf-message"
-          style={{ color: '#374151', fontWeight: 600 }}
+          style={{ color: 'var(--muted)', fontWeight: 600 }}
         >
-          Message<span aria-hidden="true" style={{ color: '#EF4444' }}> *</span>
+          Message<span aria-hidden="true" style={{ color: 'var(--error)' }}> *</span>
         </label>
         <textarea
           id="bf-message"
@@ -277,7 +277,7 @@ export default function BookingForm({ defaultValues = {} }) {
           type="submit"
           disabled={status === 'submitting'}
           style={{
-            background: '#2563EB',
+            background: 'var(--primary)',
             color: '#fff',
             border: 'none',
             padding: '0.6rem 1rem',
@@ -293,7 +293,7 @@ export default function BookingForm({ defaultValues = {} }) {
         <div
           aria-live="polite"
           aria-atomic="true"
-          style={{ minHeight: 20, color: status === 'error' ? '#EF4444' : '#2563EB' }}
+          style={{ minHeight: 20, color: status === 'error' ? 'var(--error)' : 'var(--primary)' }}
         >
           {statusMsg}
         </div>
@@ -315,13 +315,13 @@ export default function BookingForm({ defaultValues = {} }) {
 const inputStyle = {
   padding: '0.55rem 0.75rem',
   borderRadius: 8,
-  border: '1px solid #E5E7EB',
-  outlineColor: '#2563EB',
-  color: '#111827',
-  background: '#fff',
+  border: '1px solid var(--border)',
+  outlineColor: 'var(--primary)',
+  color: 'var(--text)',
+  background: 'var(--surface)',
 };
 
 const errorStyle = {
-  color: '#EF4444',
+  color: 'var(--error)',
   fontSize: '0.9rem',
 };

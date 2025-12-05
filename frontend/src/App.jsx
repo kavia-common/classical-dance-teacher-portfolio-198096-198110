@@ -7,6 +7,7 @@ import { AdminTokenProvider } from './admin/AdminTokenContext';
 import AdminHome from './admin/AdminHome';
 import AdminBookings from './admin/AdminBookings';
 import AdminGallery from './admin/AdminGallery';
+import ThemeToggle from './components/ThemeToggle';
 
 // PUBLIC_INTERFACE
 /**
@@ -36,8 +37,8 @@ export default function App() {
     <div
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(120deg, #2563EB10 0%, #f9fafb 100%)',
-        color: '#111827',
+        background: 'linear-gradient(120deg, #2563EB10 0%, var(--bg) 100%)',
+        color: 'var(--text)',
         fontFamily: 'system-ui, sans-serif',
         scrollBehavior: 'smooth',
       }}
@@ -52,7 +53,7 @@ export default function App() {
         onFocus={(e) => {
           e.currentTarget.style.left = '1rem';
           e.currentTarget.style.top = '1rem';
-          e.currentTarget.style.background = '#2563EB';
+          e.currentTarget.style.background = 'var(--primary)';
           e.currentTarget.style.color = '#fff';
           e.currentTarget.style.padding = '0.5rem 0.75rem';
           e.currentTarget.style.borderRadius = '8px';
@@ -70,29 +71,32 @@ export default function App() {
         top: 0,
         zIndex: 20,
         backdropFilter: 'saturate(180%) blur(6px)',
-        background: '#ffffffcc',
-        borderBottom: '1px solid #e5e7eb',
+        background: 'var(--nav-bg)',
+        borderBottom: '1px solid var(--border)',
         padding: '0.75rem 1rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        boxShadow: '0 4px 12px 0 rgba(37,99,235,0.06)'
+        boxShadow: '0 4px 12px 0 var(--section-shadow)'
       }}>
-        <span style={{ fontWeight: 800, color: '#2563EB', fontSize: '1.1rem', letterSpacing: 1.2 }}>Dr.Sowbharnika Thulasiram</span>
-        <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', margin: 0, padding: 0, flexWrap: 'wrap' }}>
-          <li><a href="#about" style={{ color: '#2563EB', textDecoration: 'none' }}>About</a></li>
-          <li><a href="#achievements" style={{ color: '#2563EB', textDecoration: 'none' }}>Achievements</a></li>
-          <li><a href="#gallery" style={{ color: '#2563EB', textDecoration: 'none' }}>Gallery</a></li>
-          <li><a href="#classes" style={{ color: '#2563EB', textDecoration: 'none' }}>Bharatanatyam Classes</a></li>
-          <li><a href="#contact" style={{ color: '#2563EB', textDecoration: 'none' }}>Contact</a></li>
-        </ul>
+        <span style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.1rem', letterSpacing: 1.2 }}>Dr.Sowbharnika Thulasiram</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', margin: 0, padding: 0, flexWrap: 'wrap' }}>
+            <li><a href="#about" style={{ color: 'var(--primary)', textDecoration: 'none' }}>About</a></li>
+            <li><a href="#achievements" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Achievements</a></li>
+            <li><a href="#gallery" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Gallery</a></li>
+            <li><a href="#classes" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Bharatanatyam Classes</a></li>
+            <li><a href="#contact" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Contact</a></li>
+          </ul>
+          <ThemeToggle />
+        </div>
       </nav>
 
       {!isAdmin && (
         <main id="main" role="main" style={{ maxWidth: 1100, margin: '1.25rem auto', padding: '0 1rem' }}>
-          <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
-            <h1 id="about-heading" style={{ color: '#2563EB', marginTop: 0 }}>About</h1>
-            <p style={{ color: '#374151', lineHeight: 1.7 }}>
+          <section id="about" aria-labelledby="about-heading" style={{ margin: '2rem 0', padding: '2rem', background: 'var(--surface)', borderRadius: 12, boxShadow: 'var(--section-shadow)' }}>
+            <h1 id="about-heading" style={{ color: 'var(--primary)', marginTop: 0 }}>About</h1>
+            <p style={{ color: 'var(--muted)', lineHeight: 1.7 }}>
               <strong>Dr.Sowbharnika Thulasiram</strong> is a Doctor of Physical Therapy by profession
               and a Bharathanatyam dancer by passion. A dedicated disciple of 
               <strong> Dr.Vasundhara Doraswamy</strong>, she began her
@@ -107,14 +111,14 @@ export default function App() {
 
           <ClassesSchedule />
 
-          <section id="contact" aria-labelledby="contact-heading" style={{ margin: '2rem 0', padding: '2rem', background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(37,99,235,0.08)' }}>
-            <h2 id="contact-heading" style={{ color: '#2563EB', marginTop: 0 }}>Contact</h2>
-            <p style={{ color: '#374151' }}>
+          <section id="contact" aria-labelledby="contact-heading" style={{ margin: '2rem 0', padding: '2rem', background: 'var(--surface)', borderRadius: 12, boxShadow: 'var(--section-shadow)' }}>
+            <h2 id="contact-heading" style={{ color: 'var(--primary)', marginTop: 0 }}>Contact</h2>
+            <p style={{ color: 'var(--muted)' }}>
               For inquiries and bookings, please fill out the form below or reach out directly via email/phone.
             </p>
             <BookingForm />
-            <div style={{ marginTop: 12, color: '#111827' }}>
-              <div style={{ height: 1, background: '#e5e7eb', margin: '0.75rem 0' }} />
+            <div style={{ marginTop: 12, color: 'var(--text)' }}>
+              <div style={{ height: 1, background: 'var(--border)', margin: '0.75rem 0' }} />
               <ul style={{ marginTop: 8, paddingLeft: 16 }}>
                 <li>Email: <a href="mailto:Sowbharnikaram@gmail.com">Sowbharnikaram@gmail.com</a></li>
                 <li>Phone: <a href="tel:+12672077324">+1 267 207 7324</a></li>
@@ -135,12 +139,12 @@ export default function App() {
       <footer style={{
         textAlign: 'center',
         padding: '1rem',
-        background: '#f9fafb',
-        borderTop: '1px solid #e5e7eb',
-        color: '#2563EB'
+        background: 'var(--footer-bg)',
+        borderTop: '1px solid var(--border)',
+        color: 'var(--primary)'
       }}>
         <div style={{ marginBottom: 6 }}>
-          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/admin'); }} style={{ color: '#6B7280' }}>
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/admin'); }} style={{ color: 'var(--muted)' }}>
             Admin
           </a>
         </div>

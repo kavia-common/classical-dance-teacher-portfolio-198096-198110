@@ -19,32 +19,32 @@ export default function AdminHome() {
           style={{
             display: 'block',
             padding: '1rem',
-            border: '1px solid #e5e7eb',
+            border: '1px solid var(--border)',
             borderRadius: 12,
-            background: '#fff',
-            color: '#111827',
+            background: 'var(--surface)',
+            color: 'var(--text)',
             textDecoration: 'none',
-            boxShadow: '0 1px 4px rgba(37,99,235,0.06)',
+            boxShadow: 'var(--section-shadow)',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#2563EB' }}>Bookings</h3>
-          <p style={{ marginBottom: 0, color: '#374151' }}>View and update booking status and notes.</p>
+          <h3 style={{ marginTop: 0, color: 'var(--primary)' }}>Bookings</h3>
+          <p style={{ marginBottom: 0, color: 'var(--muted)' }}>View and update booking status and notes.</p>
         </a>
         <a
           href="/admin/gallery"
           style={{
             display: 'block',
             padding: '1rem',
-            border: '1px solid #e5e7eb',
+            border: '1px solid var(--border)',
             borderRadius: 12,
-            background: '#fff',
-            color: '#111827',
+            background: 'var(--surface)',
+            color: 'var(--text)',
             textDecoration: 'none',
-            boxShadow: '0 1px 4px rgba(37,99,235,0.06)',
+            boxShadow: 'var(--section-shadow)',
           }}
         >
-          <h3 style={{ marginTop: 0, color: '#2563EB' }}>Gallery</h3>
-          <p style={{ marginBottom: 0, color: '#374151' }}>Manage gallery items: add, edit, and delete.</p>
+          <h3 style={{ marginTop: 0, color: 'var(--primary)' }}>Gallery</h3>
+          <p style={{ marginBottom: 0, color: 'var(--muted)' }}>Manage gallery items: add, edit, and delete.</p>
         </a>
       </section>
     </AdminLayout>

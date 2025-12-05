@@ -47,17 +47,17 @@ export default function Gallery({ images }) {
       style={{
         margin: '2rem 0',
         padding: '2rem',
-        background: '#ffffff',
+        background: 'var(--surface)',
         borderRadius: 12,
-        boxShadow: '0 2px 8px rgba(37,99,235,0.08)',
+        boxShadow: 'var(--section-shadow)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
         <div>
-          <h2 id="gallery-heading" style={{ color: '#2563EB', margin: 0 }}>Gallery</h2>
-          <p style={{ marginTop: 6, color: '#4B5563' }}>Glimpses from performances and practice.</p>
+          <h2 id="gallery-heading" style={{ color: 'var(--primary)', margin: 0 }}>Gallery</h2>
+          <p style={{ marginTop: 6, color: 'var(--muted-2)' }}>Glimpses from performances and practice.</p>
         </div>
-        <span aria-hidden="true" style={{ color: '#F59E0B', fontWeight: 600 }}>Visual stories</span>
+        <span aria-hidden="true" style={{ color: 'var(--secondary)', fontWeight: 600 }}>Visual stories</span>
       </div>
 
       <div
@@ -78,8 +78,8 @@ export default function Gallery({ images }) {
               margin: 0,
               borderRadius: 12,
               overflow: 'hidden',
-              border: '1px solid #E5E7EB',
-              background: '#f9fafb',
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
             }}
           >
             <img
@@ -94,7 +94,7 @@ export default function Gallery({ images }) {
               }}
             />
             {img.caption && (
-              <figcaption style={{ padding: '0.5rem 0.75rem', fontSize: '0.9rem', color: '#374151', background: '#ffffff' }}>
+              <figcaption style={{ padding: '0.5rem 0.75rem', fontSize: '0.9rem', color: 'var(--muted)', background: 'var(--surface)' }}>
                 {img.caption}
               </figcaption>
             )}
