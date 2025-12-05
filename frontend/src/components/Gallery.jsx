@@ -9,32 +9,32 @@ export default function Gallery({ images }) {
   // Use placeholder assets if none are provided
   const gallery = images || [
     {
-      src: 'https://images.unsplash.com/photo-1547584389-3c4f8b010b31?q=80&w=1200&auto=format&fit=crop',
+      src: 'https://images.pexels.com/photos/26856873/pexels-photo-26856873.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Classical dance pose silhouette on stage',
       caption: 'Graceful pose on stage',
     },
     {
-      src: 'https://images.unsplash.com/photo-1534570122623-99e8378a9aa3?q=80&w=1200&auto=format&fit=crop',
+      src: 'https://images.pexels.com/photos/31880368/pexels-photo-31880368.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Traditional costume detail',
       caption: 'Traditional costume details',
     },
     {
-      src: 'https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?q=80&w=1200&auto=format&fit=crop',
+      src: 'https://images.pexels.com/photos/16039776/pexels-photo-16039776.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Practice session in studio',
       caption: 'Practice session',
     },
     {
-      src: 'https://images.unsplash.com/photo-1485289273940-68bc75a07934?q=80&w=1200&auto=format&fit=crop',
+      src: 'https://images.pexels.com/photos/20134504/pexels-photo-20134504.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Performance with live musicians',
       caption: 'Performance night',
     },
     {
-      src: 'https://images.unsplash.com/photo-1475738972911-5b44ce984c34?q=80&w=1200&auto=format&fit=crop',
+      src: 'https://images.pexels.com/photos/20134505/pexels-photo-20134505.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Anklet bells and footwork',
       caption: 'Rhythmic footwork',
     },
     {
-      src: 'https://images.unsplash.com/photo-1512427691650-1b6a1d44fcd4?q=80&w=1200&auto=format&fit=crop',
+      src: 'https://images.pexels.com/photos/33638407/pexels-photo-33638407.jpeg?q=80&w=1200&auto=format&fit=crop',
       alt: 'Elegant hand gestures closeup',
       caption: 'Elegant mudras',
     },
