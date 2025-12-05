@@ -24,7 +24,7 @@ export default function Gallery({ images }) {
         return;
       }
       try {
-        const data = await apiFetch('/gallery', { headers: { Accept: 'application/json' } });
+        const data = await apiFetch('/api/gallery', { headers: { Accept: 'application/json' } });
         if (mounted) setFetched(Array.isArray(data) ? data : []);
       } catch (e) {
         if (mounted) {
