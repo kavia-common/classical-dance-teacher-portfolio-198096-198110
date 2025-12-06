@@ -260,11 +260,13 @@ export default function AdminGallery() {
           <div key={it.id} style={cardStyle}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               {it.imageUrl ? (
-                <img
-                  src={it.imageUrl}
-                  alt={it.title || 'Gallery image'}
-                  style={{ width: 92, height: 92, objectFit: 'cover', borderRadius: 8 }}
-                />
+                <div style={{ width: 92, height: 92, display: 'grid', placeItems: 'center', background: 'var(--bg, #f3f4f6)', borderRadius: 8 }}>
+                  <img
+                    src={it.imageUrl}
+                    alt={it.title || 'Gallery image'}
+                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: 6 }}
+                  />
+                </div>
               ) : null}
               <div style={{ flex: 1 }}>
                 <strong>{it.title || '(No title)'}</strong>

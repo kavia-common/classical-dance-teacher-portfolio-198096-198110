@@ -247,11 +247,13 @@ export default function AdminGallery() {
                     </td>
                     <td style={td}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <img
-                          src={it.imageUrl}
-                          alt={it.title || 'image'}
-                          style={{ width: 64, height: 48, objectFit: 'cover', borderRadius: 6, border: '1px solid #e5e7eb' }}
-                        />
+                        <div style={{ width: 64, height: 48, display: 'grid', placeItems: 'center', background: '#f3f4f6', borderRadius: 6, border: '1px solid #e5e7eb' }}>
+                          <img
+                            src={it.imageUrl}
+                            alt={it.title || 'image'}
+                            style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: 4 }}
+                          />
+                        </div>
                         <input
                           defaultValue={it.imageUrl || ''}
                           onBlur={(e) => {
@@ -422,8 +424,9 @@ function FocalCanvas({ item, initial, onSave, onClose }) {
             inset: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
+            objectFit: 'cover', // keep cover for cropping preview accuracy
             objectPosition: `${(pos.x * 100).toFixed(1)}% ${(pos.y * 100).toFixed(1)}%`,
+            background: '#f3f4f6',
           }}
         />
         <div

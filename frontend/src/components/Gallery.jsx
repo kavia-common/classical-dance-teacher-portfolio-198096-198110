@@ -261,22 +261,35 @@ export default function Gallery({ images }) {
                   boxShadow: '0 2px 6px rgba(0,0,0,0.07)',
                 }}
               >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
+                <div
                   style={{
-                    display: 'block',
-                    width: 320,           // larger thumbnails for better visibility
+                    width: 320,
                     height: 200,
-                    objectFit: 'cover',
-                    objectPosition: objPos,
+                    display: 'grid',
+                    placeItems: 'center',
+                    background: 'color-mix(in oklab, var(--bg), black 5%)', // subtle letterbox
                   }}
-                  srcSet={`
-                    ${img.src} 1x
-                  `}
-                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
-                />
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    style={{
+                      display: 'block',
+                      maxWidth: '100%',
+                      maxHeight: '100%',
+                      width: 'auto',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      objectPosition: objPos,
+                      background: 'transparent',
+                    }}
+                    srcSet={`
+                      ${img.src} 1x
+                    `}
+                    sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
+                  />
+                </div>
               </button>
             );
           })}
