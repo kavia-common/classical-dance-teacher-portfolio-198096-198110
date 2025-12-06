@@ -4,10 +4,6 @@ import Gallery from './components/Gallery';
 import ClassesSchedule from './components/ClassesSchedule';
 import BookingForm from './components/BookingForm';
 import Modal from './components/Modal';
-import { AdminTokenProvider } from './admin/AdminTokenContext';
-import AdminHome from './admin/AdminHome';
-import AdminBookings from './admin/AdminBookings';
-import AdminGallery from './admin/AdminGallery';
 import ThemeToggle from './components/ThemeToggle';
 
 // PUBLIC_INTERFACE
@@ -26,7 +22,7 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  const isAdmin = useMemo(() => path === '/admin' || path.startsWith('/admin/'), [path]);
+  const isAdmin = false; // Admin features disabled
 
   // PUBLIC_INTERFACE
   /**
@@ -114,13 +110,7 @@ export default function App() {
                 <li><a href="#contact" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Contact</a></li>
               </ul>
               <ThemeToggle />
-              <a
-                href="/admin"
-                onClick={(e) => { e.preventDefault(); navigate('/admin'); }}
-                style={{ color: 'var(--muted)', textDecoration: 'none', marginLeft: 8 }}
-              >
-                Admin
-              </a>
+              {/* Admin link removed */}
             </>
           ) : (
             <>
@@ -173,13 +163,7 @@ export default function App() {
         </main>
       )}
 
-      {isAdmin && (
-        <AdminTokenProvider>
-          {path === '/admin' && <AdminHome />}
-          {path === '/admin/bookings' && <AdminBookings />}
-          {path === '/admin/gallery' && <AdminGallery />}
-        </AdminTokenProvider>
-      )}
+      {/* Admin routes removed */}
 
       {/* Booking Form Modal */}
       <Modal
@@ -235,11 +219,7 @@ export default function App() {
         borderTop: '1px solid var(--border)',
         color: 'var(--primary)'
       }}>
-        <div style={{ marginBottom: 6 }}>
-          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/admin'); }} style={{ color: 'var(--muted)' }}>
-            Admin
-          </a>
-        </div>
+        {/* Admin footer link removed */}
         &copy; {new Date().getFullYear()} Classical Dance Teacher Portfolio
       </footer>
     </div>

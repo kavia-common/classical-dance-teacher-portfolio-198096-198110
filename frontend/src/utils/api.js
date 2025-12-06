@@ -9,40 +9,27 @@
  *  - showToast: dispatch app toast events for AdminLayout to render.
  */
 
+/* Admin token functionality removed (no-op) */
 // PUBLIC_INTERFACE
 export function getAdminToken() {
-  /** Returns the admin token stored in localStorage (or empty string). */
-  try {
-    return localStorage.getItem('admin_token') || '';
-  } catch {
-    return '';
-  }
+  /** Admin features disabled: always return empty token. */
+  return '';
 }
 
 // PUBLIC_INTERFACE
 export function setAdminToken(token) {
-  /** Persists the admin token to localStorage (empty to clear). */
-  try {
-    if (token) {
-      localStorage.setItem('admin_token', token);
-    } else {
-      localStorage.removeItem('admin_token');
-    }
-  } catch {
-    // ignore storage errors (private mode, etc.)
-  }
+  /** Admin features disabled: ignore token set. */
+  return;
 }
 
 // PUBLIC_INTERFACE
-export function buildHeaders(extra = {}, includeJson = true, withAuth = true) {
+export function buildHeaders(extra = {}, includeJson = true, withAuth = false) {
   /**
    * Build request headers:
    * - includeJson: adds Accept and Content-Type for JSON requests
-   * - withAuth: attach Authorization Bearer token if present
+   * - withAuth ignored (admin removed)
    */
   const headers = { ...(includeJson ? { Accept: 'application/json', 'Content-Type': 'application/json' } : {}) };
-  const token = withAuth ? getAdminToken() : '';
-  if (withAuth && token) headers['Authorization'] = `Bearer ${token}`;
   return { ...headers, ...(extra || {}) };
 }
 
@@ -75,7 +62,7 @@ export async function confirmAction(message = 'Are you sure?') {
 }
 
 // PUBLIC_INTERFACE
-export async function apiRequest(path, { method = 'GET', headers = {}, body, isAdmin = false } = {}) {
+export async function apiRequest(path, { method = 'GET', headers = {}, body } = {}) {
   /** Makes a request to the backend API.
    * - Adds Authorization: Bearer <admin_token> header for admin endpoints if isAdmin is true and token exists in localStorage.
    * - Parses JSON responses and throws on HTTP errors with { status, data }.
@@ -98,13 +85,7 @@ export async function apiRequest(path, { method = 'GET', headers = {}, body, isA
     finalHeaders['Content-Type'] = 'application/json';
   }
 
-  // Include admin token if requested
-  if (isAdmin) {
-    const token = getAdminToken();
-    if (token) {
-      finalHeaders['Authorization'] = `Bearer ${token}`;
-    }
-  }
+  // Admin token not supported; no Authorization header is added
 
   const resp = await fetch(path, {
     method,
