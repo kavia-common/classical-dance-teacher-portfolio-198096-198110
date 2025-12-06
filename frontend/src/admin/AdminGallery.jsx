@@ -11,7 +11,8 @@ export default function AdminGallery() {
 
   const [form, setForm] = useState({ title: '', description: '', imageUrl: '', tags: '' });
   const [file, setFile] = useState(null);
-  const [focal, setFocal] = useState(null); // { id, x, y } for editor overlay
+  // Focal point functionality disabled: images always render fully contained.
+  const [focal, setFocal] = useState(null);
 
   const load = async () => {
     setLoading(true);
@@ -215,7 +216,7 @@ export default function AdminGallery() {
                   <th style={th}>Title</th>
                   <th style={th}>Description</th>
                   <th style={th}>Image</th>
-                  <th style={th}>Focal</th>
+                  <th style={th}>Preview</th>
                   <th style={th}>Tags</th>
                   <th style={th}>Created</th>
                   <th style={th}>Actions</th>
@@ -265,52 +266,13 @@ export default function AdminGallery() {
                       </div>
                     </td>
                     <td style={td}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setFocal({ id: it.id, x: it.focalPoint?.x ?? 0.5, y: it.focalPoint?.y ?? 0.5 })}
-                          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFocal({ id: it.id, x: it.focalPoint?.x ?? 0.5, y: it.focalPoint?.y ?? 0.5 }); }}
-                          style={{ width: 96, height: 72, border: '1px dashed #9CA3AF', borderRadius: 6, position: 'relative', cursor: 'crosshair', background: '#f9fafb' }}
-                          title="Click to edit focal point"
-                        >
-                          <img
-                            src={it.imageUrl}
-                            alt=""
-                            aria-hidden="true"
-                            style={{
-                              position: 'absolute',
-                              inset: 0,
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              objectPosition: `${((it.focalPoint?.x ?? 0.5) * 100).toFixed(1)}% ${((it.focalPoint?.y ?? 0.5) * 100).toFixed(1)}%`,
-                              borderRadius: 6
-                            }}
-                          />
-                          <div
-                            style={{
-                              position: 'absolute',
-                              left: `${((it.focalPoint?.x ?? 0.5) * 100).toFixed(1)}%`,
-                              top: `${((it.focalPoint?.y ?? 0.5) * 100).toFixed(1)}%`,
-                              transform: 'translate(-50%, -50%)',
-                              width: 10,
-                              height: 10,
-                              background: '#2563EB',
-                              borderRadius: '50%',
-                              border: '2px solid white',
-                              boxShadow: '0 0 0 2px rgba(37,99,235,0.4)',
-                            }}
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => saveInline(it.id, { focalPoint: { x: 0.5, y: 0.5 } })}
-                          style={{ background: '#e5e7eb', border: 'none', padding: '0.3rem 0.5rem', borderRadius: 6, cursor: 'pointer' }}
-                          title="Reset focal point"
-                        >
-                          Reset
-                        </button>
+                      <div style={{ width: 96, height: 72, display: 'grid', placeItems: 'center', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 6 }}>
+                        <img
+                          src={it.imageUrl}
+                          alt=""
+                          aria-hidden="true"
+                          style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', borderRadius: 4 }}
+                        />
                       </div>
                     </td>
                     <td style={td}>
@@ -356,104 +318,12 @@ export default function AdminGallery() {
           </div>
         )}
       </section>
-      {focal && (
-        <FocalEditor
-          item={items.find((x) => x.id === focal.id)}
-          initial={focal}
-          onClose={() => setFocal(null)}
-          onSave={async (pos) => {
-            await saveInline(focal.id, { focalPoint: pos });
-            setFocal(null);
-          }}
-        />
-      )}
+      {/* Focal editor removed: previews always contain the full image. */}
     </AdminLayout>
   );
 }
 
-/**
- * Lightweight focal point editor overlay
- * Click on image to set normalized x/y, preview marker, save/cancel actions.
- */
-function FocalEditor({ item, initial, onSave, onClose }) {
-  if (!item) return null;
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,0.6)',
-        display: 'grid',
-        placeItems: 'center',
-        zIndex: 50,
-      }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-    >
-      <FocalCanvas item={item} initial={initial} onSave={onSave} onClose={onClose} />
-    </div>
-  );
-}
 
-function FocalCanvas({ item, initial, onSave, onClose }) {
-  const [pos, setPos] = React.useState({ x: initial?.x ?? item.focalPoint?.x ?? 0.5, y: initial?.y ?? item.focalPoint?.y ?? 0.5 });
-  const ref = React.useRef(null);
-
-  const onPick = (e) => {
-    const rect = ref.current.getBoundingClientRect();
-    const x = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-    const y = Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height));
-    setPos({ x, y });
-  };
-
-  return (
-    <div style={{ background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #e5e7eb', width: 'min(96vw, 900px)' }}>
-      <h3 style={{ marginTop: 4, color: '#2563EB' }}>Adjust Focal Point</h3>
-      <p style={{ marginTop: -6, color: '#6B7280' }}>Click on the image to set the focal point used for cropping previews.</p>
-      <div
-        ref={ref}
-        onClick={onPick}
-        style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', border: '1px solid #e5e7eb', borderRadius: 10, overflow: 'hidden', cursor: 'crosshair', background: '#f9fafb' }}
-      >
-        <img
-          src={item.imageUrl}
-          alt={item.title || 'image'}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover', // keep cover for cropping preview accuracy
-            objectPosition: `${(pos.x * 100).toFixed(1)}% ${(pos.y * 100).toFixed(1)}%`,
-            background: '#f3f4f6',
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            left: `${(pos.x * 100).toFixed(1)}%`,
-            top: `${(pos.y * 100).toFixed(1)}%`,
-            transform: 'translate(-50%, -50%)',
-            width: 14,
-            height: 14,
-            background: '#2563EB',
-            borderRadius: '50%',
-            border: '2px solid #fff',
-            boxShadow: '0 0 0 2px rgba(37,99,235,0.5)'
-          }}
-        />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-        <div style={{ color: '#374151' }}>x: {(pos.x).toFixed(3)} • y: {(pos.y).toFixed(3)}</div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" onClick={onClose} style={{ background: '#e5e7eb', border: 'none', padding: '0.5rem 0.8rem', borderRadius: 8, cursor: 'pointer' }}>Cancel</button>
-          <button type="button" onClick={() => onSave(pos)} style={{ background: '#2563EB', color: '#fff', border: 'none', padding: '0.5rem 0.8rem', borderRadius: 8, cursor: 'pointer' }}>Save</button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 const th = {
   padding: '0.6rem 0.5rem',

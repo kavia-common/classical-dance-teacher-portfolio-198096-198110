@@ -245,7 +245,6 @@ export default function Gallery({ images }) {
           )}
           {marqueeImages.map((img, idx) => {
             const originalIndex = idx % baseImages.length;
-            const objPos = computeObjectPosition(img);
             return (
               <button
                 key={`${img.src}-marquee-${idx}`}
@@ -281,7 +280,6 @@ export default function Gallery({ images }) {
                       width: 'auto',
                       height: 'auto',
                       objectFit: 'contain',
-                      objectPosition: objPos,
                       background: 'transparent',
                     }}
                     srcSet={`
@@ -489,16 +487,4 @@ function controlStyle() {
   };
 }
 
-/**
- * PUBLIC_INTERFACE
- * Compute CSS object-position string from image focalPoint metadata.
- */
-function computeObjectPosition(img) {
-  if (!img || !img.focalPoint) {
-    return '50.0% 50.0%';
-  }
-  const fp = img.focalPoint;
-  const x = Number.isFinite(fp.x) ? Math.max(0, Math.min(1, fp.x)) : 0.5;
-  const y = Number.isFinite(fp.y) ? Math.max(0, Math.min(1, fp.y)) : 0.5;
-  return `${(x * 100).toFixed(1)}% ${(y * 100).toFixed(1)}%`;
-}
+
