@@ -16,6 +16,7 @@ export default function AdminHome() {
       >
         <a
           href="/admin/bookings"
+          onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', '/admin/bookings'); window.dispatchEvent(new PopStateEvent('popstate')); }}
           style={{
             display: 'block',
             padding: '1rem',
@@ -32,6 +33,7 @@ export default function AdminHome() {
         </a>
         <a
           href="/admin/gallery"
+          onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', '/admin/gallery'); window.dispatchEvent(new PopStateEvent('popstate')); }}
           style={{
             display: 'block',
             padding: '1rem',

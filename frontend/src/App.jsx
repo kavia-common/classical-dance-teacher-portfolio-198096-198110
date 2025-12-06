@@ -28,8 +28,14 @@ export default function App() {
 
   const isAdmin = useMemo(() => path === '/admin' || path.startsWith('/admin/'), [path]);
 
+  // PUBLIC_INTERFACE
+  /**
+   * navigate performs SPA navigation without causing hash-based scrolling.
+   * It updates history and local state, preserving scroll position by default.
+   */
   const navigate = (to) => {
-    if (to === path) return;
+    if (!to || to === path) return;
+    // Avoid default anchor scroll/jump by not using location.hash changes.
     window.history.pushState({}, '', to);
     setPath(to);
   };
@@ -98,14 +104,36 @@ export default function App() {
       }}>
         <span style={{ fontWeight: 800, color: 'var(--primary)', fontSize: '1.1rem', letterSpacing: 1.2 }}>Dr.Sowbharnika Thulasiram</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-          <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', margin: 0, padding: 0, flexWrap: 'wrap' }}>
-            <li><a href="#about" style={{ color: 'var(--primary)', textDecoration: 'none' }}>About</a></li>
-            <li><a href="#achievements" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Achievements</a></li>
-            <li><a href="#gallery" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Gallery</a></li>
-            <li><a href="#classes" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Bharatanatyam Classes</a></li>
-            <li><a href="#contact" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Contact</a></li>
-          </ul>
-          <ThemeToggle />
+          {!isAdmin ? (
+            <>
+              <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none', margin: 0, padding: 0, flexWrap: 'wrap' }}>
+                <li><a href="#about" style={{ color: 'var(--primary)', textDecoration: 'none' }}>About</a></li>
+                <li><a href="#achievements" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Achievements</a></li>
+                <li><a href="#gallery" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Gallery</a></li>
+                <li><a href="#classes" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Bharatanatyam Classes</a></li>
+                <li><a href="#contact" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Contact</a></li>
+              </ul>
+              <ThemeToggle />
+              <a
+                href="/admin"
+                onClick={(e) => { e.preventDefault(); navigate('/admin'); }}
+                style={{ color: 'var(--muted)', textDecoration: 'none', marginLeft: 8 }}
+              >
+                Admin
+              </a>
+            </>
+          ) : (
+            <>
+              <ThemeToggle />
+              <a
+                href="/"
+                onClick={(e) => { e.preventDefault(); navigate('/'); }}
+                style={{ color: 'var(--muted)', textDecoration: 'none' }}
+              >
+                Exit Admin
+              </a>
+            </>
+          )}
         </div>
       </nav>
 

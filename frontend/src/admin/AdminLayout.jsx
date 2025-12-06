@@ -44,9 +44,25 @@ export default function AdminLayout({ children, active = '' }) {
         }}
       >
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <a href="/" style={{ fontWeight: 700, color: 'var(--primary)' }}>← Site</a>
+          <a
+            href="/"
+            onClick={(e) => { e.preventDefault(); window.history.pushState({}, '', '/'); window.dispatchEvent(new PopStateEvent('popstate')); }}
+            style={{ fontWeight: 700, color: 'var(--primary)' }}
+          >
+            ← Site
+          </a>
           <strong style={{ color: 'var(--text)' }}>Admin</strong>
-          <nav aria-label="Admin">
+          <nav aria-label="Admin" onClick={(e) => {
+            const a = e.target.closest('a[href]');
+            if (!a) return;
+            const href = a.getAttribute('href');
+            if (!href) return;
+            // Use client-side navigation within SPA
+            e.preventDefault();
+            window.history.pushState({}, '', href);
+            // Notify App to sync path state
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          }}>
             <ul style={{ display: 'flex', gap: 10, listStyle: 'none', margin: 0, padding: 0 }}>
               <li>
                 <a
