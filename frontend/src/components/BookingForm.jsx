@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { apiFetch } from '../utils/api';
 
 // PUBLIC_INTERFACE
@@ -11,19 +11,69 @@ import { apiFetch } from '../utils/api';
  * - Honeypot field to deter bots
  */
 export default function BookingForm({ defaultValues = {}, selectedOption = null }) {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    preferredDate: '',
-    ...(defaultValues || {}),
-    // honeypot not part of external defaultValues
-    company: '',
+  // Compute today's date in local timezone as yyyy-mm-dd for input[type="date"].
+  // We normalize by zeroing local time components, not using UTC, to avoid timezone shifts that could allow a past date.
+  const getTodayLocalYMD = () => {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
+
+  const [form, setForm] = useState(() => {
+    const today = getTodayLocalYMD();
+    const initial = {
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      preferredDate: '',
+      ...(defaultValues || {}),
+      // honeypot not part of external defaultValues
+      company: '',
+    };
+    // Default to today if empty or invalid
+    if (!initial.preferredDate) {
+      initial.preferredDate = today;
+    } else {
+      // Normalize if provided default is in the past
+      try {
+        if (initial.preferredDate < today) {
+          initial.preferredDate = today;
+        }
+      } catch {
+        initial.preferredDate = today;
+      }
+    }
+    return initial;
   });
+
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [statusMsg, setStatusMsg] = useState('');
+
+  // Keep a reactive min date so if the user keeps the page open overnight the min updates.
+  const [minDate, setMinDate] = useState(getTodayLocalYMD());
+  useEffect(() => {
+    const update = () => setMinDate(getTodayLocalYMD());
+    // Update at midnight local time
+    const now = new Date();
+    const msUntilMidnight =
+      new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0).getTime() - now.getTime();
+    const t1 = setTimeout(() => {
+      update();
+      // After first midnight, update every 24h
+      const t2 = setInterval(update, 24 * 60 * 60 * 1000);
+      // Store interval id on window to be cleared on unmount via clearInterval inside cleanup
+      // but we can just return a function from setTimeout scope; instead track it in closure:
+      (update)._interval = t2;
+    }, Math.max(1000, msUntilMidnight)); // ensure at least 1s
+    return () => {
+      clearTimeout(t1);
+      if ((update)._interval) clearInterval((update)._interval);
+    };
+  }, []);
 
   const requiredFields = useMemo(
     () => ['name', 'email', 'phone', 'message', 'preferredDate'],
@@ -43,12 +93,36 @@ export default function BookingForm({ defaultValues = {}, selectedOption = null 
     if (form.phone && !/^[\d+()\-\s]{7,}$/.test(form.phone)) {
       errs.phone = 'Please enter a valid phone.';
     }
+    // Past date guard
+    if (form.preferredDate) {
+      // Compare as yyyy-mm-dd strings which are lexicographically sortable
+      if (form.preferredDate < (minDate || '')) {
+        errs.preferredDate = 'Please choose today or a future date.';
+      }
+    }
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const onChange = (e) => {
     const { name, value } = e.target;
+    // If changing the date, enforce min and auto-correct
+    if (name === 'preferredDate') {
+      const today = minDate;
+      const next = value && value < today ? today : value || today;
+      setForm((prev) => ({ ...prev, [name]: next }));
+      // Clear or set errors accordingly
+      setErrors((prev) => {
+        const ne = { ...prev };
+        if (next < today) {
+          ne.preferredDate = 'Please choose today or a future date.';
+        } else {
+          delete ne.preferredDate;
+        }
+        return ne;
+      });
+      return;
+    }
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -102,15 +176,15 @@ export default function BookingForm({ defaultValues = {}, selectedOption = null 
       await submitBooking();
       setStatus('success');
       setStatusMsg('Thank you! Your booking request has been sent.');
-      // reset form (keep preferredDate empty)
-      setForm({
+      // reset form (default preferredDate to today)
+      setForm((prev) => ({
         name: '',
         email: '',
         phone: '',
         message: '',
-        preferredDate: '',
+        preferredDate: minDate,
         company: '',
-      });
+      }));
       setErrors({});
     } catch (err) {
       setStatus('error');
@@ -255,11 +329,17 @@ export default function BookingForm({ defaultValues = {}, selectedOption = null 
           type="date"
           value={form.preferredDate}
           onChange={onChange}
+          min={minDate}
           aria-invalid={!!errors.preferredDate}
-          aria-describedby={errors.preferredDate ? 'bf-date-err' : undefined}
+          aria-describedby={errors.preferredDate ? 'bf-date-err' : 'bf-date-help'}
           required
           style={inputStyle}
         />
+        {!errors.preferredDate && (
+          <span id="bf-date-help" style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
+            Date cannot be in the past.
+          </span>
+        )}
         {errors.preferredDate && (
           <span id="bf-date-err" role="alert" style={errorStyle}>
             {errors.preferredDate}
