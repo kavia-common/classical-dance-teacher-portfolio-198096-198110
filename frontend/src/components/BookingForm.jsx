@@ -127,6 +127,9 @@ export default function BookingForm({ defaultValues = {}, selectedOption = null 
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: '0.75rem',
+        boxSizing: 'border-box',
+        width: '100%',
+        maxWidth: '100%',
       }}
     >
       <h3
@@ -352,6 +355,10 @@ export default function BookingForm({ defaultValues = {}, selectedOption = null 
               grid-template-columns: 1fr !important;
             }
           }
+          form[aria-labelledby="booking-form-heading"] * {
+            box-sizing: border-box;
+            max-width: 100%;
+          }
         `}
       </style>
     </form>
@@ -365,6 +372,9 @@ const inputStyle = {
   outlineColor: 'var(--primary)',
   color: 'var(--text)',
   background: 'var(--surface)',
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
 };
 
 const errorStyle = {

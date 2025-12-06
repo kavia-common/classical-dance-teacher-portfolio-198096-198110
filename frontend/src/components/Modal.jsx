@@ -7,6 +7,7 @@ import React, { useEffect, useRef } from 'react';
  * - Focus is moved inside on open and restored to trigger on close
  * - Closes on overlay click and Escape key
  * - Uses site theme tokens via CSS variables
+ * - Responsive: dialog is constrained to viewport with internal scrolling
  */
 export default function Modal({
   isOpen,
@@ -106,7 +107,9 @@ export default function Modal({
             ×
           </button>
         </div>
-        <div style={{ padding: '0 1rem 1rem' }}>{children}</div>
+        <div style={contentWrapperStyle}>
+          <div style={contentInnerStyle}>{children}</div>
+        </div>
       </div>
     </div>
   );
@@ -138,18 +141,26 @@ const overlayStyle = {
   position: 'fixed',
   inset: 0,
   background: 'color-mix(in oklab, var(--bg), black 55%)',
-  display: 'grid',
-  placeItems: 'center',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1rem', // breathing room on tiny screens
   zIndex: 1000,
+  overflowY: 'auto', // allow page to scroll if dialog is tall
+  boxSizing: 'border-box',
 };
 
 const dialogStyle = {
-  width: 'min(96vw, 720px)',
+  width: 'min(100vw - 2rem, 720px)',
+  maxHeight: 'min(90vh, 920px)',
   background: 'var(--surface)',
   borderRadius: 12,
   border: '1px solid var(--border)',
   boxShadow: '0 16px 48px rgba(0,0,0,0.4)',
+  display: 'flex',
+  flexDirection: 'column',
   overflow: 'hidden',
+  boxSizing: 'border-box',
 };
 
 const headerStyle = {
@@ -159,6 +170,8 @@ const headerStyle = {
   padding: '0.75rem 1rem',
   borderBottom: '1px solid var(--border)',
   background: 'var(--bg)',
+  flex: '0 0 auto',
+  boxSizing: 'border-box',
 };
 
 const iconBtnStyle = {
@@ -168,4 +181,15 @@ const iconBtnStyle = {
   borderRadius: 8,
   padding: '0.25rem 0.5rem',
   cursor: 'pointer',
+};
+
+const contentWrapperStyle = {
+  flex: '1 1 auto',
+  overflowY: 'auto',
+  WebkitOverflowScrolling: 'touch',
+};
+
+const contentInnerStyle = {
+  padding: '0 1rem 1rem',
+  boxSizing: 'border-box',
 };
