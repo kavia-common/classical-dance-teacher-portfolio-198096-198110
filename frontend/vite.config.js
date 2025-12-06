@@ -1,13 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+/**
+ * Vite configuration for development server and preview.
+ * - server: development dev server
+ * - preview: built preview server. We bind to 0.0.0.0 and allow the CI preview host.
+ */
 export default defineConfig({
   plugins: [react()],
   server: { host: true, port: 3000, strictPort: true, open: false },
-  // Ensure preview uses the correct host/port and allows the preview domain
   preview: {
-    host: true,
+    host: '0.0.0.0',
     port: 3000,
-    allowedHosts: ['vscode-internal-33160-beta.beta01.cloud.kavia.ai']
+    strictPort: true,
+    allowedHosts: ['vscode-internal-42370-beta.beta01.cloud.kavia.ai']
   }
 });
